@@ -37,4 +37,14 @@ class Delegation extends Model
     public function locations(){
         return $this->hasMany('App\Models\Location', 'delegation_id', 'id');
     }
+
+    public function getStatusNameAttribute()
+    {
+        return Self::$statuses[$this->status];
+    }
+
+    public function getStatusColorAttribute()
+    {
+        return Self::$statuses_color[$this->status];
+    }
 }

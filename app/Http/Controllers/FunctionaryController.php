@@ -7,14 +7,35 @@ use Illuminate\Http\Request;
 
 class FunctionaryController extends Controller
 {
+    public function __construct() 
+    {
+        $this->content = [
+            'status'    => 'error',
+            'http_code' => 400,
+            'message'   => '',
+            'data'      => [],
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $functionaries = Functionary::getFunctionaries($request);
+
+        $this->content['http_code'] = 200;
+        $this->content['status'] = 'success';
+        if (\Request::ajax()) {
+            $this->content['data'] = $functionaries->get();
+            return response()->json($this->content);
+        }
+
+        $functionaries = $functionaries->paginate(10)->appends($request->all());
+
+        // return view('admin.accounts.index');
     }
 
     /**

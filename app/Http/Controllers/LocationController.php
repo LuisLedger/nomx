@@ -7,14 +7,40 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+    public function __construct() 
+    {
+        $this->content = [
+            'status'    => 'error',
+            'http_code' => 400,
+            'message'   => '',
+            'data'      => [],
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $id)
     {
-        //
+        $locations = Location::select();
+
+        if (!empty($id)) {
+            $locations = $locations->where('delegation_id', $id);
+        }
+
+        $this->content['http_code'] = 200;
+        $this->content['status'] = 'success';
+        if (\Request::ajax()) {
+            $locations = $locations->get();
+            $this->content['data'] = $locations;
+            return response()->json($this->content);
+        }
+
+        $locations = $locations->paginate(10)->appends($request->all());
+
+        // return view('admin.accounts.index');
     }
 
     /**

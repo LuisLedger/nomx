@@ -17,7 +17,7 @@ class CreateFunctionaryContactsTable extends Migration
             $table->id();
             $table->integer('functionary_id');
             $table->string('type');
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email',300);
             $table->string('phone',20);

@@ -21,6 +21,7 @@ class CreateFunctionariesTable extends Migration
             $table->string('middle_name',300)->nullable();
             $table->string('last_name',300)->nullable();
             $table->datetime('birthdate')->nullable();
+            $table->datetime('election_type')->nullable();
             $table->datetime('start_time')->nullable();
             $table->integer('state_id')->nullable();
             $table->integer('delegation_id')->nullable();

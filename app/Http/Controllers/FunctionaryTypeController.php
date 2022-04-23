@@ -7,14 +7,40 @@ use Illuminate\Http\Request;
 
 class FunctionaryTypeController extends Controller
 {
+    public function __construct() 
+    {
+        $this->content = [
+            'status'    => 'error',
+            'http_code' => 400,
+            'message'   => '',
+            'data'      => [],
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $functionary_types = FunctionaryType::select();
+
+        if (isset($request->level_id)) {
+            $functionary_types = $functionary_types->where('level_id', $request->level_id);
+        }
+
+        $this->content['http_code'] = 200;
+        $this->content['status'] = 'success';
+        if (\Request::ajax()) {
+            $functionary_types = $functionary_types->orderby('level_id','ASC')->get();
+            $this->content['data'] = $functionary_types;
+            return response()->json($this->content);
+        }
+
+        $functionary_types = $functionary_types->orderby('level_id','ASC')->paginate(10)->appends($request->all());
+
+        // return view('admin.accounts.index');
     }
 
     /**

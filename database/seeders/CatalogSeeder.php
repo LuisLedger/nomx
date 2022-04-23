@@ -90,25 +90,6 @@ class CatalogSeeder extends Seeder
             'name' => 'Abstención',
         ]);
 
-        $functionary_types = [
-            'Presidente(a)',
-            'Gobernador(a)',
-            'Presidente(a) Municipal',
-        ];
-        $count = 1;
-        foreach ($functionary_types as $functionary) {
-            FunctionaryType::factory()->count(1)->create([
-                'name'     => $functionary,
-                'level_id' => $count,
-            ]);
-            $count++;
-        }
-
-        $levels = [
-            'Federal',
-            'Estatal',
-            'Local',
-        ];
         $groups = [
             "PRI",
             "PAN",
@@ -122,38 +103,59 @@ class CatalogSeeder extends Seeder
             "PSO",
         ];
 
-        $functionary_types = [
-            'Pre candidato(a)',
-            'Candidato(a)',
-            'Diputado(a)',
-            'Senador(a)',
+        $levels = [
+            'Federal' => [
+                'Presidente(a)',
+                'Secretario(a)',
+                'Sub Secretario(a)',
+                'Diputado(a)',
+                'Senador(a)',
+                'Fiscal',
+                'Ministro(a)'
+            ],
+            'Estatal' => [
+                'Gobernador(a)',
+                'Sub Secretario(a)',
+                'Diputado(a)',
+                'Senador(a)',
+                'Fiscal',
+            ],
+            'Local' => [
+                'Presidente(a) Municipal',
+                'Síndico',
+                'Candidato(a)',
+                'Pre candidato(a)',
+            ]
         ];
-        foreach ($levels as $level_name) {
+
+        $level_id = 1;
+        foreach ($levels as $level => $functionary_types) {
             Level::factory()->count(1)->create([
-                'name' => $level_name,
-            ])->each(function ($level) use ($functionary_types, $groups) {
-                foreach ($functionary_types as $functionary) {
-                    FunctionaryType::factory()->count(1)->create([
-                        'name'     => $functionary,
-                        'level_id' => $level->id,
-                    ]);
-                }
-
-                foreach ($groups as $gp) {
-                    PoliticGroup::factory()->create([
-                        'name'     => $gp,
-                        'level_id' => $level->id,
-                    ])->each(function ($politic_group) {
-                        PoliticGroupOffice::factory()->create([
-                            'politic_group_id' => $politic_group->id,
-                        ]);
-                    });
-                }
-
-                GobermentEnterprice::factory()->count(3)->create([
-                    'level_id' => $level->id,
+                'name' => $level,
+            ]);
+            foreach ($functionary_types as $type) {
+                FunctionaryType::factory()->count(1)->create([
+                    'name'     => $type,
+                    'level_id' => $level_id
                 ]);
-            });
+            }
+
+            foreach ($groups as $gp) {
+                PoliticGroup::factory()->create([
+                    'name'     => $gp,
+                    'level_id' => $level_id,
+                ])->each(function ($politic_group) {
+                    PoliticGroupOffice::factory()->create([
+                        'politic_group_id' => $politic_group->id,
+                    ]);
+                });
+            }
+
+            GobermentEnterprice::factory()->count(3)->create([
+                'level_id' => $level_id
+            ]);
+
+            $level_id++;
         }
 
         $themes = [

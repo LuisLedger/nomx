@@ -21,7 +21,7 @@ class FunctionarySeeder extends Seeder
      */
     public function run()
     {
-        Functionary::factory()->count(10)->create()->each(function ($functionary) {
+        Functionary::factory()->count(50)->create()->each(function ($functionary) {
             FunctionaryContact::factory()->count(rand(1, 3))->create([
                 'functionary_id' => $functionary->id,
             ]);

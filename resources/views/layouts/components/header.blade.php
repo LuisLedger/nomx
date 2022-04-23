@@ -19,6 +19,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{ __('Inicio') }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ __('Temas') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ __('Diputados') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ __('Senadores') }}</a>
+                </li>
                 @guest
                     @if (Route::has('register'))
                         <li class="nav-item">

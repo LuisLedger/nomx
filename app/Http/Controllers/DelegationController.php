@@ -7,14 +7,40 @@ use Illuminate\Http\Request;
 
 class DelegationController extends Controller
 {
+    public function __construct() 
+    {
+        $this->content = [
+            'status'    => 'error',
+            'http_code' => 400,
+            'message'   => '',
+            'data'      => [],
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $id)
     {
-        //
+        $delegations = Delegation::select();
+
+        if (!empty($id)) {
+            $delegations = $delegations->where('state_id', $id);
+        }
+
+        $this->content['http_code'] = 200;
+        $this->content['status'] = 'success';
+        if (\Request::ajax()) {
+            $delegations = $delegations->get();
+            $this->content['data'] = $delegations;
+            return response()->json($this->content);
+        }
+
+        $delegations = $delegations->paginate(10)->appends($request->all());
+
+        // return view('admin.accounts.index');
     }
 
     /**

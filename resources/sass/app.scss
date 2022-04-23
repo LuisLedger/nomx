@@ -1,0 +1,41 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body {
+    background-color: white;
+}
+
+.card-link {
+    text-decoration: none;
+    color: black;
+}
+
+.card-link:hover {
+    background-color: #E7E7E7;
+    color: #5B5A5A;
+}
+
+a:hover, .card-link:hover {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: black;
+    color:white;
+}
+
+.image-functionary {
+    height: 8rem;
+    border-radius: 50%;
+}
+
+.image-functionary-detail {
+    height: 12rem;
+    border-radius: 50%;   
+}

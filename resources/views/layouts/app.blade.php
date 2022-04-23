@@ -7,9 +7,10 @@
         <meta content="{{ csrf_token() }}" name="csrf-token">
         @yield('metas')
         <title>{{ (isset($title))?$title:config('app.name', 'Laravel') }}</title>
-        <link rel="shortcut icon" href="{{ asset('imgs/logo-ico.png') }}">
+        {{-- <link rel="shortcut icon" href="{{ asset('imgs/logo-ico.png') }}"> --}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
         <!-- Scripts -->
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script defer="" src="{{ asset('js/app.js') }}"></script>
         <!-- Fonts -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
