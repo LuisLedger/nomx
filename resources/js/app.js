@@ -23,8 +23,10 @@ window.Vue = require('vue').default;
 Vue.component('card-component', require('./components/landing/CardComponent.vue').default);
 Vue.component('card-functionary-component', require('./components/landing/CardFunctionaryComponent.vue').default);
 Vue.component('select-locations-component', require('./components/landing/SelectLocationsComponent.vue').default);
+Vue.component('state-delegation-component', require('./components/landing/StateDelegationComponent.vue').default);
 
 Vue.component('functionaries-by-level-component', require('./components/FunctionariesByLevels.vue').default);
+Vue.component('functionary-activities-component', require('./components/FunctionaryActivities.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

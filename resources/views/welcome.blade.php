@@ -8,7 +8,7 @@
         <p class="text-center text-muted">
             ¿Que quieres saber?
         </p>
-        <form accept-charset="utf-8" action="#" method="get">
+        <form accept-charset="utf-8" action="{{ route('search') }}" method="get">
             <div class="form-group col-8 m-auto">
                 <label class="sr-only" for="search-cities">
                     Búscar
@@ -32,6 +32,7 @@
     <div class="container mt-5">
         <functionaries-by-level-component 
             :levels="{{ json_encode(\App\Models\Level::get()) }}"
+            :states="{{ json_encode(\App\Models\State::get()) }}"
         >
         </functionaries-by-level-component>
     </div>

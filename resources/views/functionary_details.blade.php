@@ -17,6 +17,10 @@
                         <b>{{$functionary->functionary_type_name}}</b>
                     </li>
                     <li class="list-group-item">
+                        <p class="text-muted m-0">Partido Político:</p>
+                        <b>{{$functionary->political_group->name}}</b>
+                    </li>
+                    <li class="list-group-item">
                         <p class="text-muted m-0">Fecha de inicio en el cargo:</p>
                         <b>{{date('d/m/Y',strtotime($functionary->start_time))}}</b>
                     </li>
@@ -45,7 +49,9 @@
                 </ul>
             </div>
             <div class="col-8">
-                
+                <functionary-activities-component
+                    :functionary="{{ json_encode($functionary) }}"
+                ></functionary-activities-component>
             </div>
         </div>
     </div>

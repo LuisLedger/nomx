@@ -8,7 +8,9 @@
                 </a>
             </div>
         </div>
-        <h2 class="text-center">Encuentra a tus representantes <br><small class="text-muted">Por tipo de cargo</small></h2>
+        <h2 class="text-center">Encuentra a tus representantes <br><small class="text-muted">Por tipo de cargo y lugar al que representan</small></h2>
+        <hr>
+        <state-delegation-component :states="states"></state-delegation-component>
         <hr>
         <div class="row" v-if="functionary_types.length > 0" id="functionary_types">
             <div class="col-md-4" v-for="functionary_type in functionary_types" >
@@ -29,18 +31,19 @@
 <script>
     export default {
         props: [
-            'levels'
+            'levels',
+            'states'
         ],
         data(){
             return {
-                selected_level: null,
-                selected_functionary_type: null,
+                selected_level: 1,
+                selected_functionary_type: 1,
                 functionary_types: [],
                 functionaries: [],
             }
         },
         mounted() {
-            this.getFunctionaryTypes()
+            this.getFunctionaryTypes(1)
         },
         methods: {
             levelBody: function(text) {
@@ -56,7 +59,7 @@
                 var t = this
                 var url = '/functionary_types'
                 t.selected_level = level_id
-                t.selected_functionary_type = null
+                t.selected_functionary_type = 1
 
                 if (level_id != null) {
                     url += '?level_id='+level_id
@@ -71,14 +74,24 @@
             getFunctionariesByTypesAndLocations: function(functionary_type_id) {
                 var t = this
                 t.selected_functionary_type = functionary_type_id
+                var data = {
+                    functionary_type_id : t.selected_functionary_type,
+                    level_id : t.selected_level,
+                }
+
+                if ($('[name="state_id"]').val() !== '') {
+                    data.state_id = $('[name="state_id"]').val()
+
+                }
+
+                if ($('[name="delegation_id"]').val() !== '') {
+                    data.delegation_id = $('[name="delegation_id"]').val()
+                }
 
                 $.ajax({
                     type: 'get',
                     url: '/functionaries_search',
-                    data: {
-                        functionary_type_id : t.selected_functionary_type,
-                        level_id : t.selected_level
-                    },
+                    data: data,
                     dataType: 'json'
                 }).done(function(response){
                     if (response.http_code == 200) {

@@ -23,7 +23,7 @@ class Functionary extends Model
         return $this->hasOne('App\Models\Level', 'id', 'level_id');
     }
 
-    public function politic_group()
+    public function political_group()
     {
         return $this->hasOne('App\Models\PoliticGroup', 'id', 'politic_group_id');
     }
@@ -56,6 +56,11 @@ class Functionary extends Model
     public function functionary_contacts()
     {
         return $this->hasMany('App\Models\FunctionaryContact', 'functionary_id', 'id');
+    }
+
+    public function functionary_activities()
+    {
+        return $this->hasMany('App\Models\FunctionaryActivities', 'functionary_id', 'id');
     }
 
     /* Attributes */

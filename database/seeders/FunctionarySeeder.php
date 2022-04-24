@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Functionary;
+use App\Models\FunctionaryActivity;
 use App\Models\FunctionaryAssistance;
 use App\Models\FunctionaryContact;
 use App\Models\FunctionarySocialMedia;
@@ -46,6 +47,11 @@ class FunctionarySeeder extends Seeder
                         'law_id'                 => $law->id,
                         'promote_functionary_id' => $functionary->id,
                     ]);
+
+                    FunctionaryActivity::factory()->count(rand(15, 30))->create([
+                        'functionary_id' => $functionary->id,
+                        'law_id'         => $law->id,
+                    ]);
                 });
             }
 
@@ -54,13 +60,18 @@ class FunctionarySeeder extends Seeder
                     'promote_functionary_id' => $functionary->id,
                     'politic_group_id'       => $functionary->politic_group_id,
                     'level_id'               => $functionary->level_id,
-                ]);
+                ])->each(function ($project) use ($functionary){
+                    FunctionaryActivity::factory()->count(rand(15, 30))->create([
+                        'functionary_id' => $functionary->id,
+                        'project_id'     => $project->id,
+                    ]);
+                });
             }
 
             FunctionaryVote::factory()->count(1)->create([
                 'functionary_id' => $functionary->id,
                 'period_id'      => 1,
-                'level_id'       => $functionary->level_id
+                'level_id'       => $functionary->level_id,
             ]);
         });
     }

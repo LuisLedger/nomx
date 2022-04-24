@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ (isset($city))?route('home',['city' => $city->name]):url('/') }}">
             {{ config('app.name', 'Laravel') }}
