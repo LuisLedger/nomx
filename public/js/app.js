@@ -5680,6 +5680,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['functionary'],
   data: function data() {
@@ -40367,7 +40368,9 @@ var render = function () {
                   }),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-body m-0" }, [
-                    _c("h3", [_vm._v(_vm._s(activity.name))]),
+                    _c("h3", { attrs: { title: activity.name } }, [
+                      _vm._v(_vm._s(activity.name.substring(0, 25))),
+                    ]),
                   ]),
                 ]),
               ])
@@ -40438,9 +40441,14 @@ var render = function () {
           {
             staticClass:
               "list-group-item d-flex justify-content-between align-items-center",
+            attrs: { title: law.law_name },
           },
           [
-            _vm._v("\n            " + _vm._s(law.law_name) + "\n            "),
+            _vm._v(
+              "\n            " +
+                _vm._s(law.law_name.substring(0, 35)) +
+                "\n            "
+            ),
             _c(
               "span",
               {
@@ -40503,9 +40511,22 @@ var render = function () {
                   }),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-body m-0" }, [
-                    _c("h3", [_vm._v(_vm._s(project.project_name))]),
+                    _c("h3", { attrs: { title: project.project_name } }, [
+                      _vm._v(_vm._s(project.project_name.substring(0, 25))),
+                    ]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(project.politic_group_name))]),
+                    _c("p", { staticClass: "m-0" }, [
+                      _vm._v(_vm._s(project.politic_group_name)),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass: "m-0",
+                        style: { color: project.status_color },
+                      },
+                      [_vm._v(_vm._s(project.status_name))]
+                    ),
                   ]),
                 ]),
               ])
@@ -40576,11 +40597,12 @@ var render = function () {
           {
             staticClass:
               "list-group-item d-flex justify-content-between align-items-center",
+            attrs: { title: proposal.proposal_name },
           },
           [
             _vm._v(
               "\n            " +
-                _vm._s(proposal.proposal_name) +
+                _vm._s(proposal.proposal_name.substring(0, 35)) +
                 "\n            "
             ),
             _c(

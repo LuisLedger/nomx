@@ -5,8 +5,8 @@
             <h3 class="pt-5 pb-5">No hay información relacionada</h3>
         </div>
         <ul class="list-group" style="max-height:350px;overflow-y: auto;">
-            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="law in laws">
-                {{law.law_name}}
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="law in laws" :title="law.law_name">
+                {{law.law_name.substring(0,35)}}
                 <span class="badge badge-pill" :style="{backgroundColor:law.status_color}" :title="law.status_name"><i :class="law.status_icon"></i></span>
             </li>
         </ul>

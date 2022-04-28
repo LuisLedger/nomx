@@ -5,8 +5,8 @@
             <h3 class="pt-5 pb-5">No hay información relacionada</h3>
         </div>
         <ul class="list-group" style="max-height:350px;overflow-y: auto;">
-            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="proposal in proposals">
-                {{proposal.proposal_name}}
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="proposal in proposals" :title="proposal.proposal_name">
+                {{proposal.proposal_name.substring(0,35)}}
                 <span class="badge badge-pill" :style="{backgroundColor:proposal.status_color}" :title="proposal.status_name"><i :class="proposal.status_icon"></i></span>
             </li>
         </ul>

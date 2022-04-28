@@ -9,7 +9,7 @@
                 <div class="card">
                     <img :src="activity.image_url" height="150" alt="">
                     <div class="card-body m-0">
-                        <h3>{{activity.name}}</h3>
+                        <h3 :title="activity.name">{{activity.name.substring(0,25)}}</h3>
                     </div>
                 </div>
             </div>
