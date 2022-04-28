@@ -29,6 +29,10 @@ class CatalogSeeder extends Seeder
      */
     public function run()
     {
+        $path = public_path('sql/File.sql');
+        $sql = file_get_contents($path);
+        \DB::unprepared($sql);
+        
         User::factory(1)->create([
             'email' => 'admin@nuevo-orden.com',
             'role'  => 'admin',
@@ -58,16 +62,6 @@ class CatalogSeeder extends Seeder
             'email' => 'capturer@nuevo-orden.com',
             'role'  => 'capturer',
         ]);
-
-        State::factory()->count(33)->create()->each(function ($state) {
-            Delegation::factory()->count(rand(1, 3))->create([
-                'state_id' => $state->id,
-            ])->each(function ($delegation) {
-                Location::factory()->count(rand(1, 3))->create([
-                    'delegation_id' => $delegation->id,
-                ]);
-            });
-        });
 
         Period::factory()->count(1)->create([
             'level_id'    => 1,
@@ -143,6 +137,7 @@ class CatalogSeeder extends Seeder
             foreach ($groups as $gp) {
                 PoliticGroup::factory()->create([
                     'name'     => $gp,
+                    'short_name' => $gp,
                     'level_id' => $level_id,
                 ])->each(function ($politic_group) {
                     PoliticGroupOffice::factory()->create([

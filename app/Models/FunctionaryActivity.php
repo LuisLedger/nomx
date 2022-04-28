@@ -13,6 +13,16 @@ class FunctionaryActivity extends Model
         'name'
     ];
 
+    public function period()
+    {
+        return $this->hasOne('App\Models\Period', 'id', 'period_id');
+    }
+
+    public function functionary()
+    {
+        return $this->hasOne('App\Models\Functionary', 'id', 'functionary_id');
+    }
+
     public function law()
     {
         return $this->hasOne('App\Models\Law', 'id', 'law_id');

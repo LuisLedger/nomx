@@ -17,8 +17,10 @@ class CreateStatesTable extends Migration
             $table->bigIncrements('id');
             $table->string('state_id');
             $table->string('name',300);
-            $table->string('short_name',100);
-            $table->integer('status');
+            $table->string('short_name',100)->nullable();
+            $table->integer('country_id')->nullable();
+            $table->integer('logo_url')->nullable();
+            $table->integer('status')->nullable()->default(1);
             $table->timestamps();
         });
     }

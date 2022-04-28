@@ -21,7 +21,8 @@ class CreateProposalRelatedInfosTable extends Migration
             $table->string('title',300);
             $table->text('description');
             $table->string('url');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
+            $table->integer('vote_type_id')->nullable();
             $table->timestamps();
         });
     }

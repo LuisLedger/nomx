@@ -12,7 +12,7 @@
         <hr>
         <state-delegation-component :states="states"></state-delegation-component>
         <hr>
-        <div class="row" v-if="functionary_types.length > 0" id="functionary_types">
+        <div class="row" v-if="functionary_types.length > 0" id="types-functionaries">
             <div class="col-md-4" v-for="functionary_type in functionary_types" >
                 <a @click.prevent="getFunctionariesByTypesAndLocations(functionary_type.id)" href="#functionaries" class="card-link">
                     <card-component :body="functionaryTypeBody(functionary_type)" :class="(functionary_type.id == selected_functionary_type)?'selected':''"></card-component>
@@ -20,10 +20,13 @@
             </div>
         </div>
         <hr>
-        <div class="row" v-if="functionaries.length > 0" id="functionaries">
+        <div class="row" v-if="functionaries.length > 0" id="list-functionaries">
             <div class="col-md-4" v-for="functionary in functionaries" >
                 <card-functionary-component :functionary="functionary"></card-functionary-component>
             </div>
+        </div>
+        <div v-else>
+            <h3 class="text-center">Las opciones no devuelven resultados, intenta con otros datos...</h3>
         </div>
     </section>
 </template>
@@ -68,6 +71,7 @@
                 $.get(url).done(function(response){
                     if (response.http_code == 200) {
                         t.functionary_types = response.data
+                        window.scrollTo(0, document.body.scrollHeight);
                     }
                 })
             },
@@ -96,6 +100,7 @@
                 }).done(function(response){
                     if (response.http_code == 200) {
                         t.functionaries = response.data
+                        window.scrollTo(0, document.body.scrollHeight);
                     }
                 })
             }

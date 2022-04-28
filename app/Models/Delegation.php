@@ -35,7 +35,7 @@ class Delegation extends Model
     }
 
     public function locations(){
-        return $this->hasMany('App\Models\Location', 'delegation_id', 'id');
+        return $this->hasMany('App\Models\Location', 'delegation_id', 'delegation_id');
     }
 
     public function getStatusNameAttribute()

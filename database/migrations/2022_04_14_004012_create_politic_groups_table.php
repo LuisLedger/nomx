@@ -15,7 +15,8 @@ class CreatePoliticGroupsTable extends Migration
     {
         Schema::create('politic_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name',300);
+            $table->string('short_name', 50);
             $table->text('mission')->nullable();
             $table->text('vission')->nullable();
             $table->text('description')->nullable();

@@ -22,6 +22,7 @@ class ProjectFactory extends Factory
             // 'start_period_id' => $this->faker->word,
             // 'execution_period_id' => $this->faker->word,
             'url_global_info' => $this->faker->url,
+            'image_url'       => 'https://fakeimg.pl/400x400/?text=Proyecto',
             'status'          => 1,
         ];
     }

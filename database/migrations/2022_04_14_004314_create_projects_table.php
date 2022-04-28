@@ -17,12 +17,14 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('project_name', 300);
             $table->text('description');
+            $table->integer('period_id');
             $table->integer('level_id');
             $table->integer('promote_functionary_id')->nullable();
             $table->integer('politic_group_id')->nullable();
             $table->integer('start_period_id')->nullable();
             $table->integer('execution_period_id')->nullable();
             $table->string('url_global_info')->nullable();
+            $table->string('image_url')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

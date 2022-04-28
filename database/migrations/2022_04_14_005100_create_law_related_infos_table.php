@@ -16,12 +16,14 @@ class CreateLawRelatedInfosTable extends Migration
         Schema::create('law_related_infos', function (Blueprint $table) {
             $table->id();
             $table->integer('law_id');
+            $table->integer('period_id');
             $table->integer('promote_functionary_id')->nullable();
             $table->integer('especialist_id')->nullable();
             $table->string('title',300);
             $table->text('description');
             $table->string('url');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
+            $table->integer('vote_type_id')->nullable();
             $table->timestamps();
         });
     }

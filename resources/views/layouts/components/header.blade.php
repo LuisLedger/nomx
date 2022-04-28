@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ (isset($city))?route('home',['city' => $city->name]):url('/') }}">
+        <a class="navbar-brand" href="{{ route('home') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -17,7 +17,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ __('Inicio') }}</a>
+                    <a class="nav-link" href="{{ route('home') }}">{{ __('Inicio') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{ __('Temas') }}</a>

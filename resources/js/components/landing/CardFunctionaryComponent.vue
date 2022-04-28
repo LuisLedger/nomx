@@ -7,9 +7,10 @@
                         <img :src="functionary.profile_url" alt="" class="image-functionary">
                     </div>
                     <div class="col-8 pt-0 pb-0">
-                        <h3 class="text-left">{{functionary.full_name}}</h3>
-                        <p class="text-left">{{functionary.level_name}} - {{formatDate(functionary.start_time)}}</p>
-                        <p class="text-left">{{functionary.politic_group_name}}</p>
+                        <h3 class="m-0 text-left">{{functionary.full_name}}</h3>
+                        <p class="m-0 text-left">{{functionary.level_name}} - {{formatDate(functionary.start_time)}}</p>
+                        <p class="m-0 text-left">{{functionary.politic_group_name}}</p>
+                        <p class="m-0 text-left text-muted">{{functionary.state_name}}, {{functionary.delegation_name}}</p>
                     </div>
                 </div>
             </div>

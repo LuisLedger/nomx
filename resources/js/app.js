@@ -19,14 +19,16 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('card-component', require('./components/landing/CardComponent.vue').default);
 Vue.component('card-functionary-component', require('./components/landing/CardFunctionaryComponent.vue').default);
 Vue.component('select-locations-component', require('./components/landing/SelectLocationsComponent.vue').default);
 Vue.component('state-delegation-component', require('./components/landing/StateDelegationComponent.vue').default);
+Vue.component('functionary-activities-component', require('./components/landing/FunctionaryActivities.vue').default);
+Vue.component('functionary-projects-component', require('./components/landing/FunctionaryProjects.vue').default);
+Vue.component('functionary-laws-component', require('./components/landing/FunctionaryLaws.vue').default);
+Vue.component('functionary-proposal-component', require('./components/landing/FunctionaryProposal.vue').default);
 
 Vue.component('functionaries-by-level-component', require('./components/FunctionariesByLevels.vue').default);
-Vue.component('functionary-activities-component', require('./components/FunctionaryActivities.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

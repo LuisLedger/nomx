@@ -16,6 +16,7 @@ class CreateFunctionaryPeriodsTable extends Migration
         Schema::create('functionary_periods', function (Blueprint $table) {
             $table->id();
             $table->integer('functionary_id');
+            $table->integer('functionary_type_id');
             $table->integer('period_id');
             $table->integer('status');
             $table->timestamps();

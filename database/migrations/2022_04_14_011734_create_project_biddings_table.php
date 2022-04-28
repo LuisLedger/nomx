@@ -16,6 +16,7 @@ class CreateProjectBiddingsTable extends Migration
         Schema::create('project_biddings', function (Blueprint $table) {
             $table->id();
             $table->integer('project_id');
+            $table->integer('period_id');
             $table->integer('goberment_enterprice_id');
             $table->integer('status');
             $table->timestamps();

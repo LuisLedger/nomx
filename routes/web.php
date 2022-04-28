@@ -32,6 +32,9 @@ Route::get('locations/{id}/list',[LocationController::class,'index']);
 Route::get('functionaries_search',[FunctionaryController::class,'index']);
 Route::get('functionary/{id}/detail',[HomeController::class,'functionary']);
 Route::get('functionary/{id}/activities',[HomeController::class,'functionary_activities']);
+Route::get('functionary/{id}/projects',[HomeController::class,'functionary_projects']);
+Route::get('functionary/{id}/laws',[HomeController::class,'functionary_laws']);
+Route::get('functionary/{id}/proposals',[HomeController::class,'functionary_proposals']);
 
 Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::resource('levels.functionary_types', FunctionaryTypeController::class);

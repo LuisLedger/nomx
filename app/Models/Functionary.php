@@ -15,8 +15,10 @@ class Functionary extends Model
         'politic_group_name',
         'functionary_type_name',
         'url_detail',
+        'state_name',
+        'delegation_name',
+        'location_name'
     ];
-
 
     public function level()
     {
@@ -63,6 +65,11 @@ class Functionary extends Model
         return $this->hasMany('App\Models\FunctionaryActivities', 'functionary_id', 'id');
     }
 
+    public function functionary_periods()
+    {
+        return $this->hasMany('App\Models\FunctionaryPeriod', 'functionary_id', 'id');
+    }
+
     /* Attributes */
     public function getFullNameAttribute()
     {
@@ -105,6 +112,35 @@ class Functionary extends Model
         return url('functionary/'.$this->id.'/detail');
     }
 
+    public function getStateNameAttribute()
+    {
+        $res = '';
+        if ($this->state) {
+            $res = $this->state->name;
+        }
+
+        return $res;
+    }
+
+    public function getDelegationNameAttribute()
+    {
+        $res = '';
+        if ($this->delegation) {
+            $res = $this->delegation->name;
+        }
+
+        return $res;
+    }
+
+    public function getLocationNameAttribute()
+    {
+        $res = '';
+        if ($this->location) {
+            $res = $this->location->name;
+        }
+
+        return $res;
+    }
     /* Static functions */
 
     public static function getFunctionaries($request) 

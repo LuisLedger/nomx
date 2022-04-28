@@ -23,10 +23,10 @@ class CreateFunctionariesTable extends Migration
             $table->datetime('birthdate')->nullable();
             $table->datetime('election_type')->nullable();
             $table->datetime('start_time')->nullable();
-            $table->integer('state_id')->nullable();
-            $table->integer('delegation_id')->nullable();
-            $table->integer('location_id')->nullable();
-            $table->integer('district_id')->nullable();
+            $table->bigInteger('state_id')->nullable();
+            $table->bigInteger('delegation_id')->nullable();
+            $table->bigInteger('location_id')->nullable();
+            $table->bigInteger('district_id')->nullable();
             $table->integer('functionary_type_id');
             $table->integer('politic_group_id');
             $table->integer('level_id');

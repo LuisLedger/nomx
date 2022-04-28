@@ -15,6 +15,7 @@ class CreateFunctionaryActivitiesTable extends Migration
     {
         Schema::create('functionary_activities', function (Blueprint $table) {
             $table->id();
+            $table->integer('period_id');
             $table->integer('functionary_id');
             $table->integer('project_id')->nullable();
             $table->integer('law_id')->nullable();

@@ -18,8 +18,9 @@ class CreateDelegationsTable extends Migration
             $table->integer('state_id');
             $table->string('delegation_id');
             $table->string('name',300);
-            $table->string('short_name',100);
-            $table->integer('status');
+            $table->string('short_name',100)->nullable();
+            $table->string('logo_url',100)->nullable();
+            $table->integer('status')->nullable()->default(1);
             $table->timestamps();
         });
     }

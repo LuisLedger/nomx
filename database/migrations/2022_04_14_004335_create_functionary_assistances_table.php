@@ -15,6 +15,7 @@ class CreateFunctionaryAssistancesTable extends Migration
     {
         Schema::create('functionary_assistances', function (Blueprint $table) {
             $table->id();
+            $table->integer('period_id');
             $table->integer('incidence_id');
             $table->integer('functionary_id');
             $table->datetime('incidence_date');
