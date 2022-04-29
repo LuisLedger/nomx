@@ -17,7 +17,8 @@ class CreateFunctionariesTable extends Migration
         Schema::create('functionaries', function (Blueprint $table) {
             $table->id();
             $table->integer('parent')->nullable();
-            $table->string('first_name',300);
+            $table->integer('user_id')->nullable();
+            $table->string('first_name',300)->nullable();
             $table->string('middle_name',300)->nullable();
             $table->string('last_name',300)->nullable();
             $table->datetime('birthdate')->nullable();
@@ -31,6 +32,7 @@ class CreateFunctionariesTable extends Migration
             $table->integer('politic_group_id');
             $table->integer('level_id');
             $table->string('profile_url')->nullable();
+            $table->boolean('is_verified')->default(true);
             $table->integer('status')->default(1);
             $table->timestamps();
         });

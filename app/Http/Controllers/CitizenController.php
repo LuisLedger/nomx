@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Especialist;
+use App\Models\Citizen;
 use Illuminate\Http\Request;
 
-class EspecialistController extends Controller
+class CitizenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class EspecialistController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Especialist  $especialist
+     * @param  \App\Models\Citizen  $citizen
      * @return \Illuminate\Http\Response
      */
-    public function show(Especialist $especialist)
+    public function show(Citizen $citizen)
     {
         //
     }
@@ -52,10 +52,10 @@ class EspecialistController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Especialist  $especialist
+     * @param  \App\Models\Citizen  $citizen
      * @return \Illuminate\Http\Response
      */
-    public function edit(Especialist $especialist)
+    public function edit(Citizen $citizen)
     {
         //
     }
@@ -64,10 +64,10 @@ class EspecialistController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Especialist  $especialist
+     * @param  \App\Models\Citizen  $citizen
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Especialist $especialist)
+    public function update(Request $request, Citizen $citizen)
     {
         //
     }
@@ -75,10 +75,10 @@ class EspecialistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Especialist  $especialist
+     * @param  \App\Models\Citizen  $citizen
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Especialist $especialist)
+    public function destroy(Citizen $citizen)
     {
         //
     }

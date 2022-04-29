@@ -9,6 +9,10 @@ class FunctionaryPeriod extends Model
 {
     use HasFactory;
 
+    protected $appends = [
+        'full_period',
+    ];
+
     public function period()
     {
         return $this->hasOne('App\Models\Period', 'id', 'period_id');

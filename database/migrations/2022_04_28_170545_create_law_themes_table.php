@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFunctionaryComissionsTable extends Migration
+class CreateLawThemesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateFunctionaryComissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('functionary_comissions', function (Blueprint $table) {
+        Schema::create('law_themes', function (Blueprint $table) {
             $table->id();
-            $table->integer('functionary_id');
-            $table->integer('comission_id');
-            $table->integer('period_id');
-            $table->integer('level_id');
-            $table->string('role');
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ class CreateFunctionaryComissionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('functionary_comissions');
+        Schema::dropIfExists('law_themes');
     }
 }

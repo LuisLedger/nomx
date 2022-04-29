@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FunctionaryComission;
+use App\Models\Specialist;
 use Illuminate\Http\Request;
 
-class FunctionaryComissionController extends Controller
+class SpecialistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class FunctionaryComissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FunctionaryComission  $functionaryComission
+     * @param  \App\Models\Specialist  $specialist
      * @return \Illuminate\Http\Response
      */
-    public function show(FunctionaryComission $functionaryComission)
+    public function show(Specialist $specialist)
     {
         //
     }
@@ -52,10 +52,10 @@ class FunctionaryComissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\FunctionaryComission  $functionaryComission
+     * @param  \App\Models\Specialist  $specialist
      * @return \Illuminate\Http\Response
      */
-    public function edit(FunctionaryComission $functionaryComission)
+    public function edit(Specialist $specialist)
     {
         //
     }
@@ -64,10 +64,10 @@ class FunctionaryComissionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FunctionaryComission  $functionaryComission
+     * @param  \App\Models\Specialist  $specialist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FunctionaryComission $functionaryComission)
+    public function update(Request $request, Specialist $specialist)
     {
         //
     }
@@ -75,10 +75,10 @@ class FunctionaryComissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\FunctionaryComission  $functionaryComission
+     * @param  \App\Models\Specialist  $specialist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FunctionaryComission $functionaryComission)
+    public function destroy(Specialist $specialist)
     {
         //
     }

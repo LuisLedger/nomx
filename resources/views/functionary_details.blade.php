@@ -14,7 +14,7 @@
                     </li>
                     <li class="list-group-item">
                         <p class="text-muted m-0">Cargo:</p>
-                        <b>{{$functionary->functionary_type_name}}</b>
+                        <b>{{$functionary->functionary_type_name}} - {{$functionary->level_name}}</b>
                     </li>
                     <li class="list-group-item">
                         <p class="text-muted m-0">Partido Político:</p>
@@ -36,6 +36,12 @@
                         <p class="text-muted m-0">Localidad:</p>
                         <b>{{$functionary->location_name}}</b>
                     </li>
+                    @if (in_array($functionary->functionary_type_id, [4,5,10,11]))
+                        <li class="list-group-item">
+                            <p class="text-muted m-0">Comisión:</p>
+                            <b>{{$functionary->commission_name}}</b>
+                        </li>
+                    @endif
                     @if ($functionary->district)
                         <li class="list-group-item">
                             <p class="text-muted m-0">Distrito:</p>
@@ -53,34 +59,10 @@
                 </ul>
             </div>
             <div class="col-8">
-                <div class="form-group mb-3">
-                    <label>Periodos de gobierno</label>
-                    <select name="period_id" id="period_id" multiple class="form-control" size="1">
-                        @foreach ($functionary->functionary_periods as $functionary_period)
-                            <option value="{{$functionary_period->period_id}}" @if ($loop->first)
-                                selected
-                            @endif>{{$functionary_period->full_period}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <functionary-laws-component
-                            :functionary="{{ json_encode($functionary) }}"
-                        ></functionary-laws-component>
-                    </div>
-                    <div class="col-md-6">
-                        <functionary-proposal-component
-                            :functionary="{{ json_encode($functionary) }}"
-                        ></functionary-proposal-component>
-                    </div>
-                </div>
-                <functionary-projects-component
+                <functionary-details-component
                     :functionary="{{ json_encode($functionary) }}"
-                ></functionary-projects-component>
-                <functionary-activities-component
-                    :functionary="{{ json_encode($functionary) }}"
-                ></functionary-activities-component>
+                    :functionary_periods="{{ json_encode($functionary->functionary_periods) }}"
+                ></functionary-details-component>
             </div>
         </div>
     </div>

@@ -17,7 +17,8 @@ class Functionary extends Model
         'url_detail',
         'state_name',
         'delegation_name',
-        'location_name'
+        'location_name',
+        'commission_name'
     ];
 
     public function level()
@@ -68,6 +69,11 @@ class Functionary extends Model
     public function functionary_periods()
     {
         return $this->hasMany('App\Models\FunctionaryPeriod', 'functionary_id', 'id');
+    }
+
+    public function functionary_commissions()
+    {
+        return $this->hasMany('App\Models\FunctionaryCommission', 'functionary_id', 'id');
     }
 
     /* Attributes */
@@ -141,8 +147,18 @@ class Functionary extends Model
 
         return $res;
     }
-    /* Static functions */
 
+    public function getCommissionNameAttribute()
+    {
+        $res = 'Sin comisión asignada';
+        if ($this->functionary_commissions()->count() > 0) {
+            $res = $this->functionary_commissions->orderBy('id', 'DESC')->first()->commission->name;
+        }
+
+        return $res;
+    }
+
+    /* Static functions */
     public static function getFunctionaries($request) 
     {
         $query = Self::select();

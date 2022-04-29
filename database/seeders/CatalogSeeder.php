@@ -6,7 +6,7 @@ use App\Models\CivilOrganization;
 use App\Models\Comission;
 use App\Models\ComissionType;
 use App\Models\Delegation;
-use App\Models\Especialist;
+use App\Models\Specialist;
 use App\Models\FunctionaryType;
 use App\Models\GobermentEnterprice;
 use App\Models\Level;
@@ -54,8 +54,8 @@ class CatalogSeeder extends Seeder
         ]);
 
         User::factory(1)->create([
-            'email' => 'especialist@nuevo-orden.com',
-            'role'  => 'especialist',
+            'email' => 'specialist@nuevo-orden.com',
+            'role'  => 'specialist',
         ]);
 
         User::factory(1)->create([
@@ -176,7 +176,9 @@ class CatalogSeeder extends Seeder
 
             CivilOrganization::factory()->count(3)->create($data);
 
-            Especialist::factory()->count(3)->create($data);
+            Specialist::factory()->count(3)->create([
+                'principal_theme_social_id' => ($idx + 1)
+            ]);
 
             Comission::factory()->count(12)->create([
                 'name'     => 'Comisión de '.$theme,

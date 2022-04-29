@@ -11,7 +11,7 @@ class Proposal extends Model
 
     public static $statuses = [
         0 => 'Deshechado',
-        1 => 'Aprobado',
+        1 => 'Cumplido',
         2 => 'Discusión',
         3 => 'Votandose',
     ];

@@ -51,6 +51,11 @@ class HomeController extends Controller
         return view('functionary_details',compact('functionary'));
     }
 
+    public function themes()
+    {
+        return view('important_themes');
+    }
+
     public function functionary_activities(Request $request, $id)
     {
         $functionary_activities = FunctionaryActivity::select();

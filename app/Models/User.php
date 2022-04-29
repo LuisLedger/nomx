@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public static $roles = [
+        'admin'           => 'Super Admin',
+        'manager'         => 'Administrador',
+        'functionary'     => 'Funcionario público',
+        'aux-functionary' => 'Funcionario aux',
+        'specialist'      => 'Especialista',
+        'citizen'         => 'Ciudadano',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -52,29 +58,8 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public static $roles = [
-        'admin'      => 'Administrador',
-    ];
-
-    public static $rol_aliases = [
-        'admin'     => 'Administrador',
-    ];
-
-    public static $roles_color = [
-        'admin'      => '#B40404',
-    ];
-
-    public static $icon_roles = [
-        'admin'      => 'fa-address-card',
-    ];
-
     public function getRoleNameAttribute()
-    {   
+    {
         return Self::$roles[$this->role];
-    }
-
-    public function getRoleColorAttribute()
-    {   
-        return Self::$roles_color[$this->role];
     }
 }

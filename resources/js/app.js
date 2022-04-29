@@ -29,6 +29,9 @@ Vue.component('functionary-laws-component', require('./components/landing/Functi
 Vue.component('functionary-proposal-component', require('./components/landing/FunctionaryProposal.vue').default);
 
 Vue.component('functionaries-by-level-component', require('./components/FunctionariesByLevels.vue').default);
+Vue.component('functionary-details-component', require('./components/FunctionaryDetails.vue').default);
+
+Vue.component('important-themes-component', require('./components/ImportantThemes.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

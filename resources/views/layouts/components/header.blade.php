@@ -20,7 +20,7 @@
                     <a class="nav-link" href="{{ route('home') }}">{{ __('Inicio') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ __('Temas') }}</a>
+                    <a class="nav-link" href="{{ route('themes') }}">{{ __('Temas') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{ __('Diputados') }}</a>

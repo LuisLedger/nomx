@@ -23,14 +23,17 @@ Route::get('auth/callback/twitter', [TwitterController::class, 'cbTwitter']);
 
 Auth::routes();
 
+/*Pages*/
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/search',[HomeController::class,'search'])->name('search');
+Route::get('functionary/{id}/detail',[HomeController::class,'functionary']);
+Route::get('themes',[HomeController::class,'themes'])->name('themes');
 
+/*Api*/
 Route::get('functionary_types',[FunctionaryTypeController::class,'index']);
 Route::get('delegations/{id}/list',[DelegationController::class,'index']);
 Route::get('locations/{id}/list',[LocationController::class,'index']);
 Route::get('functionaries_search',[FunctionaryController::class,'index']);
-Route::get('functionary/{id}/detail',[HomeController::class,'functionary']);
 Route::get('functionary/{id}/activities',[HomeController::class,'functionary_activities']);
 Route::get('functionary/{id}/projects',[HomeController::class,'functionary_projects']);
 Route::get('functionary/{id}/laws',[HomeController::class,'functionary_laws']);
