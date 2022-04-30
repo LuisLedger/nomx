@@ -10,6 +10,9 @@
                     <img :src="activity.image_url" height="150" alt="">
                     <div class="card-body m-0">
                         <h3 :title="activity.name">{{activity.name.substring(0,25)}}</h3>
+                        <a :href="activity.url" target="_blank">
+                            Ver más
+                        </a>
                     </div>
                 </div>
             </div>

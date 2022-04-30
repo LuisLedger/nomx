@@ -15,6 +15,8 @@ class CreateLawThemesTable extends Migration
     {
         Schema::create('law_themes', function (Blueprint $table) {
             $table->id();
+            $table->integer('theme_social_id');
+            $table->integer('law_id');
             $table->timestamps();
         });
     }

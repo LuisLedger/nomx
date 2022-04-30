@@ -7,6 +7,7 @@
                         <img :src="functionary.profile_url" alt="" class="image-functionary">
                     </div>
                     <div class="col-8 pt-0 pb-0">
+                        <p class="m-0 text-muted"><small>{{functionary.functionary_type_name}}</small></p>
                         <h3 class="m-0 text-left">{{functionary.full_name}}</h3>
                         <p class="m-0 text-left">{{functionary.level_name}} - {{formatDate(functionary.start_time)}}</p>
                         <p class="m-0 text-left">{{functionary.politic_group_name}}</p>

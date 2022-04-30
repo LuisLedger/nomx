@@ -6,14 +6,7 @@
         </div>
         <div class="row" v-else>
             <div class="col-4 mb-3" v-for="project in projects">
-                <div class="card">
-                    <img :src="project.image_url" height="150" alt="">
-                    <div class="card-body m-0">
-                        <h3 :title="project.project_name">{{project.project_name.substring(0,25)}}</h3>
-                        <p class="m-0">{{project.politic_group_name}}</p>
-                        <p class="m-0" :style="{color:project.status_color}">{{project.status_name}}</p>
-                    </div>
-                </div>
+                <project-card-component :project="project"></project-card-component>
             </div>
             <div class="col-12">
                 <button @click="getProjectsByFunctionaries" class="btn btn-link btn-block">

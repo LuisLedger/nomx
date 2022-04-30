@@ -2,7 +2,7 @@
     <section>
         <div class="form-group mb-3">
             <label>Periodos de gobierno</label>
-            <select name="period_id" id="period_id" multiple class="form-control" size="1">
+            <select name="period_id" id="period_id" class="form-control">
                 <option :value="functionary_period.period_id" v-for="functionary_period in functionary_periods">{{functionary_period.full_period}}</option>
             </select>
         </div>

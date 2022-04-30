@@ -15,6 +15,8 @@ class CreateProjectThemesTable extends Migration
     {
         Schema::create('project_themes', function (Blueprint $table) {
             $table->id();
+            $table->integer('theme_social_id');
+            $table->integer('project_id');
             $table->timestamps();
         });
     }

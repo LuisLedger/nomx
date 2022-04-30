@@ -56,6 +56,16 @@
                             @endforeach
                         </li>
                     @endif
+                    @if ($functionary->functionary_social_medias)
+                        <li class="list-group-item">
+                            <p class="text-muted m-0">Redes sociales:</p>
+                            @foreach ($functionary->functionary_social_medias as $social_media)
+                                <a href="{{$social_media->url}}" target="_blank">
+                                    <i class="{{$social_media->icon}}"></i> {{$social_media->user}}
+                                </a><br>
+                            @endforeach
+                        </li>
+                    @endif
                 </ul>
             </div>
             <div class="col-8">

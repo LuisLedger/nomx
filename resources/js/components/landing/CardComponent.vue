@@ -1,8 +1,6 @@
 <template>
-    <div :class="(extra_class)?'card mt-3 '+extra_class:'card mt-3'">
+    <div :class="(extra_class)?'card '+extra_class:'card'" v-html="body">
         <div class="card-header" v-if="title">{{title}}</div>
-        <div class="card-body m-0" v-html="body">
-        </div>
     </div>
 </template>
 

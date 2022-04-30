@@ -20,6 +20,7 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('card-component', require('./components/landing/CardComponent.vue').default);
+Vue.component('project-card-component', require('./components/landing/CardProjectComponent.vue').default);
 Vue.component('card-functionary-component', require('./components/landing/CardFunctionaryComponent.vue').default);
 Vue.component('select-locations-component', require('./components/landing/SelectLocationsComponent.vue').default);
 Vue.component('state-delegation-component', require('./components/landing/StateDelegationComponent.vue').default);

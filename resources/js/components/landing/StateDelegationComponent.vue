@@ -12,7 +12,7 @@
         <div class="col-md-6" v-if="(show_delegations === undefined)">
            <div class="form-group">
                <label v-if="show_labels === undefined">Municipios</label>
-               <select name="delegation_id" :disabled="(delegations.length>0)?false:true" class="form-control">
+               <select name="delegation_id" :disabled="(delegations.length>0)?false:true" class="form-control" @change.prevent="method">
                    <option value="">{{(show_labels === undefined)?'Selecciona una opcion':'Municipios'}}</option>
                    <option :value="delegation.id" :selected="(sel_delegation==delegation.id)" v-for="delegation in delegations">{{delegation.name}}</option>
                </select>
@@ -29,7 +29,8 @@
             'sel_delegation',
             'show_delegations',
             'show_locations',
-            'show_labels'
+            'show_labels',
+            'method'
         ],
         data(){
             return {
@@ -55,6 +56,7 @@
                     }).done(function(response){
                         if (response.http_code == 200) {
                             t.delegations = response.data
+                            t.method()
                         }
                     })
                 }

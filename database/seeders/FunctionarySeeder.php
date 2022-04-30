@@ -11,8 +11,11 @@ use App\Models\FunctionaryVote;
 use App\Models\FunctionaryPeriod;
 use App\Models\Law;
 use App\Models\LawRelatedInfo;
+use App\Models\LawThemes;
 use App\Models\Project;
+use App\Models\ProjectThemes;
 use App\Models\Proposal;
+use App\Models\ProposalThemes;
 use Illuminate\Database\Seeder;
 
 class FunctionarySeeder extends Seeder
@@ -24,7 +27,7 @@ class FunctionarySeeder extends Seeder
      */
     public function run()
     {
-        Functionary::factory()->count(10)->create()->each(function ($functionary) {
+        Functionary::factory()->count(150)->create()->each(function ($functionary) {
             FunctionaryContact::factory()->count(rand(1, 3))->create([
                 'functionary_id' => $functionary->id,
             ]);
@@ -35,7 +38,7 @@ class FunctionarySeeder extends Seeder
 
             FunctionaryAssistance::factory()->count(1)->create([
                 'functionary_id' => $functionary->id,
-                'period_id'      => 1,
+                'period_id'      => 4,
             ]);
 
             Law::factory()->count(rand(9,15))->create([
@@ -53,8 +56,10 @@ class FunctionarySeeder extends Seeder
                 FunctionaryActivity::factory()->count(rand(6,9))->create([
                     'functionary_id' => $functionary->id,
                     'law_id'         => $law->id,
-                    'period_id'      => 1,
+                    'period_id'      => 4,
                 ]);
+
+                LawThemes::factory()->count(1)->create(['law_id' => $law->id]);
             });
 
             Project::factory()->count(rand(9, 15))->create([
@@ -66,8 +71,10 @@ class FunctionarySeeder extends Seeder
                 FunctionaryActivity::factory()->count(rand(6,9))->create([
                     'functionary_id' => $functionary->id,
                     'project_id'     => $project->id,
-                    'period_id'      => 1,
+                    'period_id'      => 4,
                 ]);
+
+                ProjectThemes::factory()->count(1)->create(['project_id' => $project->id]);
             });
 
             Proposal::factory()->count(rand(9, 15))->create([
@@ -75,11 +82,13 @@ class FunctionarySeeder extends Seeder
                 'politic_group_id'       => $functionary->politic_group_id,
                 'level_id'               => $functionary->level_id,
                 'period_id'              => 1,
-            ]);
+            ])->each(function($proposal){
+                ProposalThemes::factory()->count(1)->create(['proposal_id' => $proposal->id]);
+            });
 
             FunctionaryVote::factory()->count(1)->create([
                 'functionary_id' => $functionary->id,
-                'period_id'      => 1,
+                'period_id'      => 4,
                 'level_id'       => $functionary->level_id,
             ]);
 

@@ -39,3 +39,10 @@ a:hover, .card-link:hover {
     height: 12rem;
     border-radius: 50%;   
 }
+
+.list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}

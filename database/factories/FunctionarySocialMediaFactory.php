@@ -13,9 +13,24 @@ class FunctionarySocialMediaFactory extends Factory
      */
     public function definition()
     {
+        $id = rand(0,3);
+        $socials = [
+            'Facebook',
+            'Twitter',
+            'Instagram',
+            'Youtube'
+        ];
+
+        $icons = [
+            'fa-facebook',
+            'fa-twitter',
+            'fa-instagram',
+            'fa-youtube'
+        ];
+
         return [
-            'name_social_media' => $this->faker->word,
-            'icon'              => $this->faker->word,
+            'name_social_media' => $socials[$id],
+            'icon'              => $icons[$id],
             'user'              => $this->faker->word,
             'url'               => $this->faker->url,
         ];

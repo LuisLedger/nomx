@@ -27,6 +27,7 @@
             </main>
         </div>
         @isset ($view_footer)
+        @else
             @include('layouts.components.footer')
         @endif
     </body>

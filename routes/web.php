@@ -38,6 +38,11 @@ Route::get('functionary/{id}/activities',[HomeController::class,'functionary_act
 Route::get('functionary/{id}/projects',[HomeController::class,'functionary_projects']);
 Route::get('functionary/{id}/laws',[HomeController::class,'functionary_laws']);
 Route::get('functionary/{id}/proposals',[HomeController::class,'functionary_proposals']);
+Route::get('periods_by_level/{id}',[HomeController::class,'periods_by_level']);
+Route::get('laws_projects_proposals', [HomeController::class,'laws_projects_proposals']);
+Route::get('themes/laws', [HomeController::class,'laws']);
+Route::get('themes/projects', [HomeController::class,'projects']);
+Route::get('themes/proposals', [HomeController::class,'proposals']);
 
 Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::resource('levels.functionary_types', FunctionaryTypeController::class);

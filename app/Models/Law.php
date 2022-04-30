@@ -34,8 +34,15 @@ class Law extends Model
         'status_name',
         'status_color',
         'status_icon',
+        'theme_name'
     ];
 
+    public function law_themes()
+    {
+        return $this->hasMany('App\Models\LawThemes', 'law_id', 'id');
+    }
+
+    /*Attributes*/
     public function getStatusNameAttribute()
     {
         return Self::$statuses[$this->status];
@@ -49,5 +56,57 @@ class Law extends Model
     public function getStatusIconAttribute()
     {
         return Self::$statuses_icon[$this->status];
+    }
+
+    public function getThemeNameAttribute()
+    {
+        $res = 'Sin tema asignado';
+        if ($this->law_themes->count() > 0) {
+            $res = $this->law_themes()->orderBy('id','DESC')->first()->theme_social->name;
+        }
+        return $res;
+    }
+
+    /* Static functions */
+    public static function getLaws($request) 
+    {
+        $query = Self::select();
+
+        if (isset($request->state_id)) {
+            $query = $query->where('state_id', $request->state_id);
+        }
+
+        if (isset($request->delegation_id)) {
+            $query = $query->where('delegation_id', $request->delegation_id);
+        }
+
+        if (isset($request->location_id)) {
+            $query = $query->where('location_id', $request->location_id);
+        }
+
+        if (isset($request->period_id)) {
+            $query = $query->where('period_id', $request->period_id);
+        }
+
+        if (isset($request->level_id)) {
+            $query = $query->where('level_id', $request->level_id);
+        }
+
+        if (isset($request->politic_group_id)) {
+            $query = $query->where('politic_group_id', $request->politic_group_id);
+        }
+
+        if (isset($request->functionary_type_id)) {
+            $query = $query->where('promote_functionary_id', $request->functionary_id);
+        }
+
+        if (isset($request->theme_social_id)) {
+            $related = \App\Models\LawThemes::select('law_id',)->where('theme_social_id',$request->theme_social_id)->get()->toArray();
+            if (count($related) > 0) {
+                $query = $query->whereIn('id', $related);
+            }
+        }
+
+        return $query;
     }
 }

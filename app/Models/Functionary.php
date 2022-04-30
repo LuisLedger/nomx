@@ -76,6 +76,11 @@ class Functionary extends Model
         return $this->hasMany('App\Models\FunctionaryCommission', 'functionary_id', 'id');
     }
 
+    public function functionary_social_medias()
+    {
+        return $this->hasMany('App\Models\FunctionarySocialMedia', 'functionary_id', 'id');
+    }
+
     /* Attributes */
     public function getFullNameAttribute()
     {

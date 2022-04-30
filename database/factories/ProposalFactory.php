@@ -23,7 +23,7 @@ class ProposalFactory extends Factory
             // 'start_period_id'        => $this->faker,
             // 'execution_period_id'    => $this->faker,
             'url_global_info'        => $this->faker->url,
-            'image_url'              => 'https://fakeimg.pl/400x400/?text=Promesas',
+            'image_url'              => 'https://fakeimg.pl/400x400/?text=Promesas&Propuestas',
             'status'                 => 1,
         ];
     }

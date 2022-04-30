@@ -65,6 +65,46 @@ class CatalogSeeder extends Seeder
 
         Period::factory()->count(1)->create([
             'level_id'    => 1,
+            'start'       => date('2018-12-01'),
+            'end'         => date('2024-11-30'),
+            'start_month' => 12,
+            'start_year'  => 2018,
+            'end_month'   => 11,
+            'end_year'    => 2024,
+        ]);
+
+        Period::factory()->count(1)->create([
+            'level_id'    => 2,
+            'start'       => date('2018-12-01'),
+            'end'         => date('2024-11-30'),
+            'start_month' => 12,
+            'start_year'  => 2018,
+            'end_month'   => 11,
+            'end_year'    => 2024,
+        ]);
+
+        Period::factory()->count(1)->create([
+            'level_id'    => 1,
+            'start'       => date('2021-09-01'),
+            'end'         => date('2024-08-31'),
+            'start_month' => 9,
+            'start_year'  => 2021,
+            'end_month'   => 8,
+            'end_year'    => 2024,
+        ]);
+
+        Period::factory()->count(1)->create([
+            'level_id'    => 2,
+            'start'       => date('2021-09-01'),
+            'end'         => date('2024-08-31'),
+            'start_month' => 9,
+            'start_year'  => 2021,
+            'end_month'   => 8,
+            'end_year'    => 2024,
+        ]);
+
+        Period::factory()->count(1)->create([
+            'level_id'    => 3,
             'start'       => date('2021-09-01'),
             'end'         => date('2024-08-31'),
             'start_month' => 9,
@@ -163,8 +203,10 @@ class CatalogSeeder extends Seeder
             'Salud',
             'Economía',
             'Medio Ambiente',
+            'Minorías',
             'Social',
             'Seguridad Pública',
+            'Migración',
             'Estado de derecho',
         ];
         foreach ($themes as $idx => $theme) {
