@@ -70,6 +70,12 @@
                                 {{ __('Ingresar') }}
                             </button>
                         </div>
+                        <div class="flex items-center justify-end mt-3 mb-3">
+                            <a class="btn" href="{{ url('auth/twitter') }}"
+                                style="background: #1E9DEA; padding: 10px; width: 100%; text-align: center; display: block; border-radius:4px; color: #ffffff;">
+                                Login with Twitter
+                            </a>
+                        </div>
                         <div class="form-group">
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link btn-block" href="{{ route('password.request') }}">
@@ -78,12 +84,6 @@
                             @endif
                         </div>
                         <hr>
-                        <div class="flex items-center justify-end mt-4">
-                            <a class="btn" href="{{ url('auth/twitter') }}"
-                                style="background: #1E9DEA; padding: 10px; width: 100%; text-align: center; display: block; border-radius:4px; color: #ffffff;">
-                                Login with Twitter
-                            </a>
-                        </div>
                         <div class="form-group mb-0">
                             <a href="{{ route('register') }}" class="btn btn-link btn-block">
                                 No tengo cuenta

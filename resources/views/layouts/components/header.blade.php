@@ -16,16 +16,19 @@
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
-                <li class="nav-item">
+                <li class="nav-item {{ ($menu == 'home')?'active':''}}">
                     <a class="nav-link" href="{{ route('home') }}">{{ __('Inicio') }}</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ($menu == 'find_functionaries')?'active':''}}">
+                    <a class="nav-link" href="{{ route('find_functionaries') }}">{{ __('Encuentra funcionarios') }}</a>
+                </li>
+                <li class="nav-item {{ ($menu == 'themes')?'active':''}}">
                     <a class="nav-link" href="{{ route('themes') }}">{{ __('Temas') }}</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ($menu == 'chamber_deputies')?'active':''}}">
                     <a class="nav-link" href="#">{{ __('Diputados') }}</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ($menu == 'chamber_senators')?'active':''}}">
                     <a class="nav-link" href="#">{{ __('Senadores') }}</a>
                 </li>
                 @guest

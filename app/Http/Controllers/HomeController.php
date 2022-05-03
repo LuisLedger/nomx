@@ -29,12 +29,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $menu = 'home';
+        return view('welcome',compact('menu'));
     }
 
     public function search(Request $request)
     {
+        $menu = 'search';
 
+    }
+
+    public function find_functionaries(Request $request)
+    {
+        $menu = 'find_functionaries';
+        return view('find_functionaries',compact('menu'));
     }
 
     public function functionary(Request $request, $id)
@@ -47,14 +55,16 @@ class HomeController extends Controller
             return redirect()->back();
         }
 
+        $menu = 'functionary_details';
         $functionary = Functionary::find($id);
 
-        return view('functionary_details', compact('functionary'));
+        return view('functionary_details', compact('functionary','menu'));
     }
 
     public function themes()
     {
-        return view('important_themes');
+        $menu = 'themes';
+        return view('important_themes',compact('menu'));
     }
 
     public function functionary_activities(Request $request, $id)

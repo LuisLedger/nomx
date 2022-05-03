@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5 mb-5">
+    <div class="container" style="margin-top:15rem; margin-bottom: 15rem;">
         <h1 class="text-center">
             ¡Bienvenido!
         </h1>
@@ -29,12 +29,5 @@
                 </div>
             </div>
         </form>
-    </div>
-    <div class="container mt-5">
-        <functionaries-by-level-component 
-            :levels="{{ json_encode(\App\Models\Level::get()) }}"
-            :states="{{ json_encode(\App\Models\State::get()) }}"
-        >
-        </functionaries-by-level-component>
     </div>
 @endsection

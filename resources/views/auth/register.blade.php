@@ -34,11 +34,11 @@
                         @csrf
                         <label for="role">{{ __('Tipo Cuenta') }}</label>
                         <div class="form-group">
-                            @foreach (\App\Models\User::$rol_aliases as $idx => $role)
+                            @foreach (\App\Models\User::$roles as $idx => $role)
                                 @if ($loop->iteration > 1)
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="role" id="radio_{{$loop->iteration}}" value="{{$idx}}" required>
-                                        <label class="form-check-label" for="radio_{{$loop->iteration}}"><i class="fa {{\App\User::$icon_roles[$idx]}} mr-3"></i>{{$role}}</label>
+                                        <label class="form-check-label" for="radio_{{$loop->iteration}}">{{$role}}</label>
                                     </div>
                                 @endif
                             @endforeach
@@ -94,12 +94,12 @@
                                 </div>  
                             </div>
                         </div>
-                        <div class="flex items-center justify-end mt-4">
+                        {{-- <div class="flex items-center justify-end mt-4">
                             <a class="btn" href="{{ url('auth/twitter') }}"
                                 style="background: #1E9DEA; padding: 10px; width: 100%; text-align: center; display: block; border-radius:4px; color: #ffffff;">
                                 Login with Twitter
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="form-group mb-0">
                             <button type="submit" class="btn btn-primary btn-block">
                                 {{ __('Registrarse') }}
