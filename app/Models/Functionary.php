@@ -18,7 +18,8 @@ class Functionary extends Model
         'state_name',
         'delegation_name',
         'location_name',
-        'commission_name'
+        'commission_name',
+        'assistance_today'
     ];
 
     public function level()
@@ -79,6 +80,16 @@ class Functionary extends Model
     public function functionary_social_medias()
     {
         return $this->hasMany('App\Models\FunctionarySocialMedia', 'functionary_id', 'id');
+    }
+
+    public function functionary_assistances()
+    {
+        return $this->hasMany('App\Models\FunctionaryAssistance', 'functionary_id', 'id');
+    }
+
+    public function functionary_votes()
+    {
+        return $this->hasMany('App\Models\FunctionaryVote', 'functionary_id', 'id');
     }
 
     /* Attributes */
@@ -158,6 +169,32 @@ class Functionary extends Model
         $res = 'Sin comisión asignada';
         if ($this->functionary_commissions()->count() > 0) {
             $res = $this->functionary_commissions->orderBy('id', 'DESC')->first()->commission->name;
+        }
+
+        return $res;
+    }
+
+    public function getAssistanceTodayAttribute()
+    {
+        $today = date('Y-m-d');
+        $res   = [
+            'confirm'   => true,
+            'assitance' => 'Asistió',
+            'color'     => 'green',
+            'icon'      => 'fa fa-check'
+        ];
+
+        $period = $this->functionary_periods()->where('status',1)->first();
+
+        $assistance = $this->functionary_assistances()->whereDate('incidence_date', $today)->where('period_id',$period->period_id)->first();
+
+        if (!empty($assistance)) {
+            $res   = [
+                'confirm'   => false,
+                'assitance' => $assistance->assistance_name,
+                'color'     => $assistance->assistance_color,
+                'icon'      => $assistance->assistance_icon
+            ];
         }
 
         return $res;

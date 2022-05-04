@@ -25,10 +25,10 @@
                 <li class="nav-item {{ ($menu == 'themes')?'active':''}}">
                     <a class="nav-link" href="{{ route('themes') }}">{{ __('Temas') }}</a>
                 </li>
-                <li class="nav-item {{ ($menu == 'chamber_deputies')?'active':''}}">
-                    <a class="nav-link" href="#">{{ __('Diputados') }}</a>
+                <li class="nav-item {{ ($menu == 'chamber_dips')?'active':''}}">
+                    <a class="nav-link" href="{{ route('chamber_dips') }}">{{ __('Diputados') }}</a>
                 </li>
-                <li class="nav-item {{ ($menu == 'chamber_senators')?'active':''}}">
+                <li class="nav-item {{ ($menu == 'chamber_sens')?'active':''}}">
                     <a class="nav-link" href="#">{{ __('Senadores') }}</a>
                 </li>
                 @guest

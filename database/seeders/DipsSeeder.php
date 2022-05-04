@@ -18,7 +18,7 @@ use App\Models\Proposal;
 use App\Models\ProposalThemes;
 use Illuminate\Database\Seeder;
 
-class FunctionarySeeder extends Seeder
+class DipsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -27,12 +27,15 @@ class FunctionarySeeder extends Seeder
      */
     public function run()
     {
-        Functionary::factory()->count(150)->create()->each(function ($functionary) {
-            FunctionaryContact::factory()->count(rand(1, 3))->create([
+        Functionary::factory()->count(500)->create([
+            'functionary_type_id' => 4,
+            'level_id' => 1
+        ])->each(function ($functionary) {
+            FunctionaryContact::factory()->count(1)->create([
                 'functionary_id' => $functionary->id,
             ]);
 
-            FunctionarySocialMedia::factory()->count(rand(1, 3))->create([
+            FunctionarySocialMedia::factory()->count(1)->create([
                 'functionary_id' => $functionary->id,
             ]);
 
@@ -43,19 +46,19 @@ class FunctionarySeeder extends Seeder
                 ]);
             }
 
-            Law::factory()->count(rand(9,15))->create([
+            Law::factory()->count(2)->create([
                 'promote_functionary_id' => $functionary->id,
                 'level_id'               => $functionary->level_id,
                 'politic_group_id'       => $functionary->politic_group_id,
                 'period_id'              => 1,
             ])->each(function ($law) use ($functionary) {
-                LawRelatedInfo::factory()->count(rand(3, 5))->create([
+                LawRelatedInfo::factory()->count(1)->create([
                     'law_id'                 => $law->id,
                     'promote_functionary_id' => $functionary->id,
                     'period_id'              => 1,
                 ]);
 
-                FunctionaryActivity::factory()->count(rand(6,9))->create([
+                FunctionaryActivity::factory()->count(1)->create([
                     'functionary_id' => $functionary->id,
                     'law_id'         => $law->id,
                     'period_id'      => 4,
@@ -64,13 +67,13 @@ class FunctionarySeeder extends Seeder
                 LawThemes::factory()->count(1)->create(['law_id' => $law->id]);
             });
 
-            Project::factory()->count(rand(9, 15))->create([
+            Project::factory()->count(1)->create([
                 'promote_functionary_id' => $functionary->id,
                 'politic_group_id'       => $functionary->politic_group_id,
                 'level_id'               => $functionary->level_id,
                 'period_id'              => 1,
             ])->each(function ($project) use ($functionary) {
-                FunctionaryActivity::factory()->count(rand(6,9))->create([
+                FunctionaryActivity::factory()->count(1)->create([
                     'functionary_id' => $functionary->id,
                     'project_id'     => $project->id,
                     'period_id'      => 4,
@@ -79,7 +82,7 @@ class FunctionarySeeder extends Seeder
                 ProjectThemes::factory()->count(1)->create(['project_id' => $project->id]);
             });
 
-            Proposal::factory()->count(rand(9, 15))->create([
+            Proposal::factory()->count(1)->create([
                 'promote_functionary_id' => $functionary->id,
                 'politic_group_id'       => $functionary->politic_group_id,
                 'level_id'               => $functionary->level_id,

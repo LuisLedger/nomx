@@ -28,7 +28,7 @@
                                 </i>
                             </div>
                         </div>
-                        <input class="form-control" id="search" name="q" placeholder="Búscar información" type="text" v-on:keyup.13="setSearch" :value="search" autocomplete="off">
+                        <input class="form-control" id="search" name="q" placeholder="Búscar información" type="text" v-on:keyup.13="setSearch" :value="q" autocomplete="off">
                             <button class="input-group-append btn btn-primary" @click.prevent="getDataRelated">
                                 Búscar
                             </button>
@@ -199,6 +199,7 @@
             setSearch : function() {
                 var t = this
                 t.q = ($('[name="q"]').val() != '') ? $('[name="q"]').val() :''
+                console.log(t.q)
                 t.getDataRelated()
             },
             getDataRelated : function() {

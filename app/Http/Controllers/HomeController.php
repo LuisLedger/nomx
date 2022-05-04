@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Functionary;
 use App\Models\FunctionaryActivity;
+use App\Models\FunctionaryPeriod;
 use App\Models\Law;
 use App\Models\Period;
 use App\Models\Project;
@@ -45,6 +46,12 @@ class HomeController extends Controller
         return view('find_functionaries',compact('menu'));
     }
 
+    public function chamber_dips(Request $request)
+    {
+        $menu = 'chamber_dips';
+        return view('chamber_dips',compact('menu'));
+    }
+
     public function functionary(Request $request, $id)
     {
         if (empty($id)) {
@@ -65,6 +72,38 @@ class HomeController extends Controller
     {
         $menu = 'themes';
         return view('important_themes',compact('menu'));
+    }
+
+    public function functionary_cameras(Request $request)
+    {
+        $functionaries = Functionary::select();
+
+        if (isset($request->level_id)) {
+            $functionaries = $functionaries->where('level_id', $request->level_id);
+        } else {
+            $functionaries = $functionaries->where('level_id', 1);
+        }
+
+        if (isset($request->functionary_type_id)) {
+            $functionaries = $functionaries->where('functionary_type_id', $request->functionary_type_id);
+        } else {
+            $functionaries = $functionaries->where('functionary_type_id', 4);
+        }
+
+        if (isset($request->period_id)) {
+            $functionary_period = FunctionaryPeriod::select('functionary_id')->where('period_id', $request->period_id)->get()->toArray();
+
+            $functionaries = $functionaries->whereIn('id', $functionary_period);
+        }
+
+        $functionaries = $functionaries->orderBy('first_name','ASC')->orderby('middle_name', 'ASC')->orderBy('last_name','ASC')->get()->toArray();
+        
+        $this->content['http_code'] = 200;
+        $this->content['status']    = 'success';
+
+        $this->content['data'] = array_chunk($functionaries, 125,true);
+
+        return response()->json($this->content);
     }
 
     public function functionary_activities(Request $request, $id)

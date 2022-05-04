@@ -14,7 +14,7 @@ class FunctionaryAssistanceFactory extends Factory
     public function definition()
     {
         return [
-            'incidence_id'   => rand(1, 5),
+            'incidence_id'   => rand(1, 2),
             'incidence_date' => date('Y-m-d'),
             'incidence'      => $this->faker->paragraph,
         ];

@@ -1,4 +1,4 @@
-<footer class="mt-3 mb-5">
+<footer class="mt-3 mb-5 position-sticky">
     <div class="container">
         <hr>
         <div class="row">

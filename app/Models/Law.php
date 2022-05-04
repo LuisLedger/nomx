@@ -107,6 +107,14 @@ class Law extends Model
             }
         }
 
+        if (isset($request->q)) {
+            $string = $request->q;
+            $query = $query->where(function($q) use($string){
+                $q->where('law_name', 'like', '%'.$string.'%');
+                $q->orWhere('description', 'like', '%'.$string.'%');
+            });
+        }
+
         return $query;
     }
 }

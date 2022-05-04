@@ -28,11 +28,14 @@ Vue.component('functionary-activities-component', require('./components/landing/
 Vue.component('functionary-projects-component', require('./components/landing/FunctionaryProjects.vue').default);
 Vue.component('functionary-laws-component', require('./components/landing/FunctionaryLaws.vue').default);
 Vue.component('functionary-proposal-component', require('./components/landing/FunctionaryProposal.vue').default);
+Vue.component('functionary-list-component', require('./components/landing/FunctionaryList.vue').default);
 
 Vue.component('functionaries-by-level-component', require('./components/FunctionariesByLevels.vue').default);
 Vue.component('functionary-details-component', require('./components/FunctionaryDetails.vue').default);
 
 Vue.component('important-themes-component', require('./components/ImportantThemes.vue').default);
+
+Vue.component('chamber-one-component', require('./components/ChamberOne.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

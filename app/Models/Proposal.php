@@ -108,6 +108,14 @@ class Proposal extends Model
             }
         }
 
+        if (isset($request->q)) {
+            $string = $request->q;
+            $query = $query->where(function($q) use($string){
+                $q->where('proposal_name', 'like', '%'.$string.'%');
+                $q->orWhere('description', 'like', '%'.$string.'%');
+            });
+        }
+
         return $query;
     }
 }

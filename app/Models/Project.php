@@ -159,6 +159,14 @@ class Project extends Model
             }
         }
 
+        if (isset($request->q)) {
+            $string = $request->q;
+            $query = $query->where(function($q) use($string){
+                $q->where('project_name', 'like', '%'.$string.'%');
+                $q->orWhere('description', 'like', '%'.$string.'%');
+            });
+        }
+
         return $query;
     }
 }

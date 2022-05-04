@@ -17,8 +17,10 @@
                 </a>
             </div>
         </div>
-        <h2 class="text-center">¿En dondé? <br><small class="text-muted">Por estado y municipios</small></h2>
-        <state-delegation-component :states="states" :method="getFunctionariesData"></state-delegation-component>
+        <div v-if="selected_level > 1">
+            <h2 class="text-center">¿En dondé? <br><small class="text-muted">Por estado y municipios</small></h2>
+            <state-delegation-component :states="states" :method="getFunctionariesData"></state-delegation-component>
+        </div>
         <hr>
         <div class="row" v-if="functionaries.length > 0" id="list-functionaries">
             <div class="col-md-4 mb-3" v-for="functionary in functionaries" >
