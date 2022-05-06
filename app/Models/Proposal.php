@@ -108,6 +108,10 @@ class Proposal extends Model
             }
         }
 
+        if (isset($request->votation_date)) {
+            $query = $query->whereDate('votation_date', $request->votation_date);
+        }
+
         if (isset($request->q)) {
             $string = $request->q;
             $query = $query->where(function($q) use($string){

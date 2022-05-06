@@ -9,6 +9,7 @@ use App\Models\Law;
 use App\Models\Period;
 use App\Models\Project;
 use App\Models\Proposal;
+use App\Models\PoliticGroup;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -88,6 +89,10 @@ class HomeController extends Controller
             $functionaries = $functionaries->where('functionary_type_id', $request->functionary_type_id);
         } else {
             $functionaries = $functionaries->where('functionary_type_id', 4);
+        }
+
+        if (isset($request->politic_group_id)) {
+            $functionaries = $functionaries->where('politic_group_id', $request->politic_group_id);
         }
 
         if (isset($request->period_id)) {
@@ -212,6 +217,28 @@ class HomeController extends Controller
         $this->content['status']    = 'success';
 
         $this->content['data'] = $periods->orderBy('created_at', 'DESC')->get();
+
+        return response()->json($this->content);
+    }
+
+    public function politic_groups_by_level(Request $request, $id)
+    {
+        $politic_groups = PoliticGroup::select(['id','name']);
+
+        if (empty($id)) {
+            return redirect()->back();
+        }
+
+        if (!is_numeric($id)) {
+            return redirect()->back();
+        }
+
+        $politic_groups = $politic_groups->where('level_id', $id);
+
+        $this->content['http_code'] = 200;
+        $this->content['status']    = 'success';
+
+        $this->content['data'] = $politic_groups->orderBy('name', 'ASC')->get();
 
         return response()->json($this->content);
     }

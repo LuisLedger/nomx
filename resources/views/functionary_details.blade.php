@@ -61,7 +61,7 @@
                             <p class="text-muted m-0">Redes sociales:</p>
                             @foreach ($functionary->functionary_social_medias as $social_media)
                                 <a href="{{$social_media->url}}" target="_blank">
-                                    <i class="{{$social_media->icon}}"></i> {{$social_media->user}}
+                                    <i class="fa {{$social_media->icon}} mr-3"></i> {{$social_media->user}}
                                 </a><br>
                             @endforeach
                         </li>

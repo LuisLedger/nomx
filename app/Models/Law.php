@@ -100,6 +100,10 @@ class Law extends Model
             $query = $query->where('promote_functionary_id', $request->functionary_id);
         }
 
+        if (isset($request->votation_date)) {
+            $query = $query->whereDate('votation_date', $request->votation_date);
+        }
+
         if (isset($request->theme_social_id)) {
             $related = \App\Models\LawThemes::select('law_id',)->where('theme_social_id',$request->theme_social_id)->get()->toArray();
             if (count($related) > 0) {

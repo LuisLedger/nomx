@@ -9,11 +9,11 @@
                 <i class="fa fa-hand-paper-o"></i>
             </span>
         </li>
-        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-1" v-for="item in items">
-            <p class="m-0" style="font-size:9px;">{{item.full_name}}</p>
+        <a :href="item.url_detail" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-1" v-for="item in items">
+            <p class="m-0" style="font-size:9px;"><img :src="item.politic_group_image" height="12px" class="mr-1" alt=""> {{item.full_name}}</p>
             <span class="badge badge-pill assistance" :style="{backgroundColor: item.assistance_today.color,marginLeft:'auto !important'}" :title="item.assistance_today.assitance"><i :class="item.assistance_today.icon"></i></span>
             <span class="badge badge-secondary badge-pill badge-secondary ml-1"><i class="fa fa-remove"></i></span>
-        </li>
+        </a>
     </ul>
 </template>
 <script>

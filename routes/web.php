@@ -41,6 +41,7 @@ Route::get('/functionary/{id}/projects',[HomeController::class,'functionary_proj
 Route::get('/functionary/{id}/laws',[HomeController::class,'functionary_laws']);
 Route::get('/functionary/{id}/proposals',[HomeController::class,'functionary_proposals']);
 Route::get('/periods_by_level/{id}',[HomeController::class,'periods_by_level']);
+Route::get('/politic_groups_by_level/{id}',[HomeController::class,'politic_groups_by_level']);
 Route::get('/laws_projects_proposals', [HomeController::class,'laws_projects_proposals']);
 Route::get('/themes/laws', [HomeController::class,'laws']);
 Route::get('/themes/projects', [HomeController::class,'projects']);

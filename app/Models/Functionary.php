@@ -13,6 +13,7 @@ class Functionary extends Model
         'full_name',
         'level_name',
         'politic_group_name',
+        'politic_group_image',
         'functionary_type_name',
         'url_detail',
         'state_name',
@@ -111,8 +112,18 @@ class Functionary extends Model
     public function getPoliticGroupNameAttribute()
     {
         $res = '';
-        if ($this->politic_group) {
-            $res = $this->politic_group->name;
+        if ($this->political_group) {
+            $res = $this->political_group->name;
+        }
+
+        return $res;
+    }
+
+    public function getPoliticGroupImageAttribute()
+    {
+        $res = '';
+        if ($this->political_group) {
+            $res = $this->political_group->logo;
         }
 
         return $res;
@@ -186,7 +197,14 @@ class Functionary extends Model
 
         $period = $this->functionary_periods()->where('status',1)->first();
 
-        $assistance = $this->functionary_assistances()->whereDate('incidence_date', $today)->where('period_id',$period->period_id)->first();
+        $assistance = null;
+
+        if ($this->functionary_assistances()->count() > 0) {
+            $assistance = $this->functionary_assistances()
+            ->whereDate('incidence_date', $today)
+            ->where('period_id',$period->period_id)->first();
+        }
+        
 
         if (!empty($assistance)) {
             $res   = [

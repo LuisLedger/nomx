@@ -37,21 +37,24 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>Nivel:</label>
-                        <select name="level_id" class="form-control" @change.prevent="periodsByLevel">
-                            <option value="">Selecciona una opción</option>
-                            <option :value="level.id" v-for="level in levels">{{level.name}}</option>
-                        </select>
+                        <select-form-component
+                            :name="'level_id'"
+                            :title="'Nivel'"
+                            :method="periodsByLevel"
+                            :items="levels"
+                        ></select-form-component>
                     </div>
                     <div class="col-md-6">
-                        <label>Periodos:</label>
-                        <select name="period_id" class="form-control" @change.prevent="getDataRelated()">
-                            <option value="">Selecciona una opción</option>
-                            <option :value="period.id" v-for="period in periods">{{period.start_year}} - {{period.end_year}}</option>
-                        </select>
+                        <select-form-component
+                            :name="'level_id'"
+                            :title="'Periodos'"
+                            :method="getDataRelated"
+                            :items="periods"
+                        ></select-form-component>
                     </div>
                 </div>
                 <state-delegation-component :states="states" :method="getDataRelated"></state-delegation-component>
+                
                 <section id="laws" v-if="data_laws.laws.length > 0">
                     <h3>Leyes</h3>
                     <hr>
@@ -66,6 +69,12 @@
                         </div>
                     </div>
                 </section>
+                <section v-else>
+                    <h3>Leyes</h3>
+                    <hr>
+                    <h3 class="text-center">{{ (data_laws.loading)?'Cargando datos...':'No hay datos para mostrar' }}</h3>
+                </section>
+
                 <section id="projects" v-if="data_projects.projects.length > 0">
                     <h3>Proyectos</h3>
                     <hr>
@@ -80,8 +89,14 @@
                         </div>
                     </div>
                 </section>
+                <section v-else>
+                    <h3>Proyectos</h3>
+                    <hr>
+                    <h3 class="text-center">{{ (data_projects.loading)?'Cargando datos...':'No hay datos para mostrar' }}</h3>
+                </section>
+                
                 <section id="proposals" v-if="data_proposals.proposals.length > 0">
-                    <h3>Propuestas y Promesas</h3>
+                    <h3>Propuestas y Promesas en campaña</h3>
                     <hr>
                     <div class="row">
                         <div class="col-4 mb-3" v-bind:key="'proposal-'+proposal.id" v-for="proposal in data_proposals.proposals">
@@ -93,6 +108,11 @@
                             </button>
                         </div>
                     </div>
+                </section>
+                <section v-else>
+                    <h3>Propuestas y Promesas en campaña</h3>
+                    <hr>
+                    <h3 class="text-center">{{ (data_proposals.loading)?'Cargando datos...':'No hay datos para mostrar' }}</h3>
                 </section>
             </div>
         </div>
@@ -108,23 +128,26 @@
         ],
         data(){
             return {
-                search : null,
+                q : null,
                 sel_theme : null,
                 periods : [],
                 data_projects : {
                     projects : [],
                     page: 1,
-                    last_page: 1
+                    last_page: 1,
+                    loading: false
                 },
                 data_laws : {
                     laws : [],
                     page: 1,
-                    last_page: 1
+                    last_page: 1,
+                    loading: false
                 },
                 data_proposals : {
                     proposals : [],
                     page: 1,
-                    last_page: 1
+                    last_page: 1,
+                    loading: false
                 },
                 query_string_data : null
             }
@@ -133,6 +156,14 @@
             this.getDataRelated()
         },
         methods: {
+            formatPeriod: function(data) {
+                return data.map(function(x) {
+                    return {
+                        id: x.id,
+                        name: x.start_year +' - ' + x.end_year
+                    };
+                });
+            },
             itemBody : function(item) {
                 var name = '' 
                 var colorItem = ''
@@ -182,7 +213,7 @@
                         dataType: 'json'
                     }).done(function(response){
                         if (response.http_code == 200) {
-                            t.periods = response.data
+                            t.periods = t.formatPeriod(response.data)
                             t.getDataRelated()
                         }
                     })
@@ -199,18 +230,20 @@
             setSearch : function() {
                 var t = this
                 t.q = ($('[name="q"]').val() != '') ? $('[name="q"]').val() :''
-                console.log(t.q)
                 t.getDataRelated()
             },
             getDataRelated : function() {
                 var t = this
                 var data = {
-                    limit : 3
+                    limit : 6
                 }
 
                 t.data_laws.laws = []
+                t.data_laws.loading = true
                 t.data_projects.projets = []
+                t.data_projects.loading = true
                 t.data_proposals.proposals = []
+                t.data_proposals.loading = true
 
                 if (t.sel_theme > 0) {
                     data.theme_social_id = t.sel_theme
@@ -228,6 +261,14 @@
                     data.period_id = $('[name="period_id"]').val()
                 }
 
+                if ($('[name="state_id"]').val() != '') {
+                    data.state_id = $('[name="state_id"]').val()
+                }
+
+                if ($('[name="delegation_id"]').val() != '') {
+                    data.delegation_id = $('[name="delegation_id"]').val()
+                }
+
                 t.query_string_data = data
 
                 $.ajax({
@@ -240,14 +281,17 @@
 
                         t.data_laws.last_page = response.data.laws.last_page
                         t.data_laws.laws = response.data.laws.data
+                        t.data_laws.loading = false
                         t.data_laws.page++
 
                         t.data_projects.last_page = response.data.projects.last_page
                         t.data_projects.projects = response.data.projects.data
+                        t.data_projects.loading = false
                         t.data_projects.page++
 
                         t.data_proposals.last_page = response.data.proposals.last_page
                         t.data_proposals.proposals = response.data.proposals.data
+                        t.data_proposals.loading = false
                         t.data_proposals.page++
                     }
                 })

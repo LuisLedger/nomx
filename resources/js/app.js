@@ -18,7 +18,10 @@ window.Vue = require('vue').default;
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+/*FORM COMPONENT*/
+Vue.component('select-form-component', require('./components/forms/SelectForm.vue').default);
 
+/*APP COMPONENTS*/
 Vue.component('card-component', require('./components/landing/CardComponent.vue').default);
 Vue.component('project-card-component', require('./components/landing/CardProjectComponent.vue').default);
 Vue.component('card-functionary-component', require('./components/landing/CardFunctionaryComponent.vue').default);
@@ -30,11 +33,10 @@ Vue.component('functionary-laws-component', require('./components/landing/Functi
 Vue.component('functionary-proposal-component', require('./components/landing/FunctionaryProposal.vue').default);
 Vue.component('functionary-list-component', require('./components/landing/FunctionaryList.vue').default);
 
+/*MODULE COMPONENT*/
 Vue.component('functionaries-by-level-component', require('./components/FunctionariesByLevels.vue').default);
 Vue.component('functionary-details-component', require('./components/FunctionaryDetails.vue').default);
-
 Vue.component('important-themes-component', require('./components/ImportantThemes.vue').default);
-
 Vue.component('chamber-one-component', require('./components/ChamberOne.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to

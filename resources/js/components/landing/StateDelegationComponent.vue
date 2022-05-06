@@ -1,22 +1,25 @@
 <template>
     <div class="row mb-3">
         <div class="col-md-6">
-           <div class="form-group">
-               <label v-if="show_labels === undefined">Estado</label>
-               <select name="state_id" class="form-control" :disabled="(states.length>0)?false:true" @change="getDelegationsByState">
-                   <option value="">{{(show_labels === undefined)?'Selecciona una opcion':'Estado'}}</option>
-                   <option :value="state.id" :selected="(sel_state==state.id)" v-for="state in states">{{state.name}}</option>
-               </select>
-           </div>
+            <select-form-component
+                :name="'state_id'"
+                :title="'Estados'"
+                :selected="sel_state"
+                :method="getDelegationsByState"
+                :show_labels="show_labels"
+                :items="states"
+            ></select-form-component>
         </div>
         <div class="col-md-6" v-if="(show_delegations === undefined)">
-           <div class="form-group">
-               <label v-if="show_labels === undefined">Municipios</label>
-               <select name="delegation_id" :disabled="(delegations.length>0)?false:true" class="form-control" @change.prevent="method">
-                   <option value="">{{(show_labels === undefined)?'Selecciona una opcion':'Municipios'}}</option>
-                   <option :value="delegation.id" :selected="(sel_delegation==delegation.id)" v-for="delegation in delegations">{{delegation.name}}</option>
-               </select>
-            </div>
+            <select-form-component
+                :name="'delegation_id'"
+                :title="'Municipios'"
+                :selected="sel_delegation"
+                :method="method"
+                :disabled="(delegations.length>0)?false:true"
+                :show_labels="show_labels"
+                :items="delegations"
+            ></select-form-component>
         </div>
     </div>
 </template>

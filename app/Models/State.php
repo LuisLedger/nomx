@@ -31,11 +31,11 @@ class State extends Model
 
     public function getStatusNameAttribute()
     {
-        return Self::$statuses[$this->status];
+        // return Self::$statuses[$this->status];
     }
 
     public function getStatusColorAttribute()
     {
-        return Self::$statuses_color[$this->status];
+        // return Self::$statuses_color[$this->status];
     }
 }
