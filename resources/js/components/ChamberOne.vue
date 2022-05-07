@@ -27,6 +27,7 @@
             </div>
         </div>
         <select-form-component
+            :hide_option="true"
             :name="'state_id'"
             :title="'Estado'"
             :method="getFunctionariesCameras"
@@ -39,26 +40,37 @@
             </div>
         </div>
         <div class="mb-3" v-else>
-            <h5 class="text-center">Cargando datos...</h5>
+            <h5 class="text-center pt-5 pb-5"><b>{{(load_functionaries)?'Cargando datos...':'Sin datos para mostrar'}}</b></h5>
         </div>
-        <h2 class="text-center">Discusión o temas tratados</h2>
+        <h3><b>Propuestas / Promesas</b></h3>
         <hr>
-        <div class="row">
-            <div class="col-md-4">
-                <h3 class="text-center">Propuestas / Promesas</h3>
-                <hr>
-                <project-card-component class="mb-3" :key="'proposal-'+proposal.id" :project="formatLikeProject(proposal)" v-for="proposal in proposals"></project-card-component>
+        <div class="row" v-if="proposals.length > 0">
+            <div class="col-md-4" :key="'proposal-'+proposal.id" v-for="proposal in proposals">
+                <project-card-component class="mb-3" :key="'proposal-card-'+proposal.id" :project="formatLikeProject(proposal)"></project-card-component>
             </div>
-            <div class="col-md-4">
-                <h3 class="text-center">Leyes</h3>
-                <hr>
-                <project-card-component class="mb-3" :key="'law-'+law.id" :project="formatLikeProject(law)" v-for="law in laws"></project-card-component>
+        </div>
+        <div v-else>
+            <h5 class="text-center"><b>{{(load_proposals)?'Cargando...':'Sin datos para mostrar'}}</b></h5>
+        </div>
+        <h3><b>Leyes</b></h3>
+        <hr>
+        <div class="row" v-if="laws.length > 0">
+            <div class="col-md-4" :key="'law-'+law.id" v-for="law in laws">
+                <project-card-component class="mb-3" :key="'law-card-'+law.id" :project="formatLikeProject(law)"></project-card-component>
             </div>
-            <div class="col-md-4">
-                <h3 class="text-center">Proyectos</h3>
-                <hr>
-                <project-card-component class="mb-3" :key="'project-'+project.id" :project="project" v-for="project in projects"></project-card-component>
+        </div>
+        <div v-else>
+            <h5 class="text-center"><b>{{(load_laws)?'Cargando...':'Sin datos para mostrar'}}</b></h5>
+        </div>
+        <h3><b>Proyectos</b></h3>
+        <hr>
+        <div class="row" v-if="projects.length > 0">
+            <div class="col-md-4" :key="'project-'+project.id" :project="project" v-for="project in projects">
+                <project-card-component class="mb-3" :key="'project-card-'+project.id" :project="project"></project-card-component>
             </div>
+        </div>
+        <div v-else>
+            <h5 class="text-center"><b>{{(load_projects)?'Cargando...':'Sin datos para mostrar'}}</b></h5>
         </div>
     </section>
 </template>
@@ -72,18 +84,21 @@
         data(){
             return {
                 functionaries : [],
+                load_functionaries: false,
                 politic_groups: [],
                 level_id : 1,
                 functionary_type: 10,
                 proposals : [],
+                load_proposals: false,
                 laws : [],
+                load_laws: false,
                 projects: [],
-                query_string_data: [] 
+                load_projects: false,
+                query_string_data: []
             }
         },
         mounted() {
             this.getPoliticGroupByLevel()
-            this.getFunctionariesCameras()
         },
         methods: {
             formatLikeProject: function(item) {
@@ -114,6 +129,7 @@
                     }).done(function(response){
                         if (response.http_code == 200) {
                             t.politic_groups = response.data
+                            t.getFunctionariesCameras()
                         }
                     })
                 }
@@ -142,6 +158,8 @@
                 }
 
                 t.query_string_data = data
+                t.functionaries = []
+                t.load_functionaries = true
 
                 $.ajax({
                     type:'get',
@@ -150,6 +168,7 @@
                     dataType: 'json'
                 }).done(function(response){
                     if (response.http_code == 200) {
+                        t.load_functionaries = false
                         t.functionaries = response.data
                         t.getLaws()
                         t.getProjects()
@@ -159,7 +178,7 @@
             },
             getLaws: function(){
                 var t = this
-
+                t.load_laws = true
                 $.ajax({
                     type: 'get',
                     url: '/themes/laws',
@@ -172,11 +191,13 @@
                                 t.laws = [...t.laws,el]
                             })
                         }
+                        t.load_laws = false
                     }
                 })
             },
             getProjects: function(){
                 var t = this
+                t.load_projects = true
                 $.ajax({
                     type: 'get',
                     url: '/themes/projects',
@@ -184,6 +205,7 @@
                     dataType: 'json'
                 }).done(function(response){
                     if (response.http_code == 200) {
+                        t.load_projects = false
                         if (response.data.data.length > 0) {
                             $.each(response.data.data,function(i,el){
                                 t.projects = [...t.projects,el]
@@ -194,6 +216,7 @@
             },
             getProposals: function(){
                 var t = this
+                t.load_proposals = true
                 $.ajax({
                     type: 'get',
                     url: '/themes/proposals',
@@ -201,6 +224,7 @@
                     dataType: 'json'
                 }).done(function(response){
                     if (response.http_code == 200) {
+                        t.load_proposals = false
                         if (response.data.data.length > 0) {
                             $.each(response.data.data,function(i,el){
                                 t.proposals = [...t.proposals,el]

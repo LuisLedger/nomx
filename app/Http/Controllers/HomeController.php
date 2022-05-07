@@ -77,9 +77,11 @@ class HomeController extends Controller
 
     public function functionary_cameras(Request $request)
     {
+        $chunk = 125;
         $functionaries = Functionary::select();
 
         if (isset($request->level_id)) {
+            $chunk = ($request->level_id != 1)?14:$chunk;
             $functionaries = $functionaries->where('level_id', $request->level_id);
         } else {
             $functionaries = $functionaries->where('level_id', 1);
@@ -101,12 +103,16 @@ class HomeController extends Controller
             $functionaries = $functionaries->whereIn('id', $functionary_period);
         }
 
+        if (isset($request->state_id)) {
+            $functionaries = $functionaries->where('state_id', $request->state_id);
+        }
+
         $functionaries = $functionaries->orderBy('first_name','ASC')->orderby('middle_name', 'ASC')->orderBy('last_name','ASC')->get()->toArray();
         
         $this->content['http_code'] = 200;
         $this->content['status']    = 'success';
 
-        $this->content['data'] = array_chunk($functionaries, 125,true);
+        $this->content['data'] = array_chunk($functionaries, $chunk,true);
 
         return response()->json($this->content);
     }

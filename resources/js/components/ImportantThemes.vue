@@ -42,11 +42,12 @@
                             :title="'Nivel'"
                             :method="periodsByLevel"
                             :items="levels"
+                            :hide_option="true"
                         ></select-form-component>
                     </div>
                     <div class="col-md-6">
                         <select-form-component
-                            :name="'level_id'"
+                            :name="'period_id'"
                             :title="'Periodos'"
                             :method="getDataRelated"
                             :items="periods"
@@ -153,6 +154,7 @@
             }
         },
         mounted() {
+            this.periodsByLevel()
             this.getDataRelated()
         },
         methods: {
@@ -193,7 +195,7 @@
                             </div>
                             <div class="col-4">
                                 <a href="${item.url_global_info}" target="_blank">
-                                    Ver más
+                                    Ver info...
                                 </a> 
                             </div>
                         </div>

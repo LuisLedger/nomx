@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-4">
                     <a :href="project.url_global_info" target="_blank">
-                        Ver más
+                        Ver info...
                     </a>
                 </div>
             </div>

@@ -10,17 +10,17 @@ class FunctionaryAssistance extends Model
     use HasFactory;
 
     public static $statuses = [
-        1 => 'Faltó',
+        1 => 'No en curúl',
         2 => 'No asistió',
     ];
 
     public static $statuses_color = [
-        1 => 'red',
+        1 => 'yellow',
         2 => 'gray',
     ];
 
     public static $statuses_icon = [
-        1 => 'fa fa-check',
+        1 => 'fa fa-circle-o',
         2 => 'fa fa-times',
     ];
 

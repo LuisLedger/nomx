@@ -5343,23 +5343,38 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['states', 'today'],
   data: function data() {
     return {
       functionaries: [],
+      load_functionaries: false,
       politic_groups: [],
       level_id: 1,
       functionary_type: 10,
       proposals: [],
+      load_proposals: false,
       laws: [],
+      load_laws: false,
       projects: [],
+      load_projects: false,
       query_string_data: []
     };
   },
   mounted: function mounted() {
     this.getPoliticGroupByLevel();
-    this.getFunctionariesCameras();
   },
   methods: {
     formatLikeProject: function formatLikeProject(item) {
@@ -5391,6 +5406,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }).done(function (response) {
           if (response.http_code == 200) {
             t.politic_groups = response.data;
+            t.getFunctionariesCameras();
           }
         });
       }
@@ -5419,6 +5435,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       t.query_string_data = data;
+      t.functionaries = [];
+      t.load_functionaries = true;
       $.ajax({
         type: 'get',
         url: 'functionary_cameras',
@@ -5426,6 +5444,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         dataType: 'json'
       }).done(function (response) {
         if (response.http_code == 200) {
+          t.load_functionaries = false;
           t.functionaries = response.data;
           t.getLaws();
           t.getProjects();
@@ -5435,6 +5454,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     getLaws: function getLaws() {
       var t = this;
+      t.load_laws = true;
       $.ajax({
         type: 'get',
         url: '/themes/laws',
@@ -5447,11 +5467,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               t.laws = [].concat(_toConsumableArray(t.laws), [el]);
             });
           }
+
+          t.load_laws = false;
         }
       });
     },
     getProjects: function getProjects() {
       var t = this;
+      t.load_projects = true;
       $.ajax({
         type: 'get',
         url: '/themes/projects',
@@ -5459,6 +5482,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         dataType: 'json'
       }).done(function (response) {
         if (response.http_code == 200) {
+          t.load_projects = false;
+
           if (response.data.data.length > 0) {
             $.each(response.data.data, function (i, el) {
               t.projects = [].concat(_toConsumableArray(t.projects), [el]);
@@ -5469,6 +5494,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     getProposals: function getProposals() {
       var t = this;
+      t.load_proposals = true;
       $.ajax({
         type: 'get',
         url: '/themes/proposals',
@@ -5476,6 +5502,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         dataType: 'json'
       }).done(function (response) {
         if (response.http_code == 200) {
+          t.load_proposals = false;
+
           if (response.data.data.length > 0) {
             $.each(response.data.data, function (i, el) {
               t.proposals = [].concat(_toConsumableArray(t.proposals), [el]);
@@ -5826,6 +5854,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['themes', 'levels', 'states'],
   data: function data() {
@@ -5855,6 +5884,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
   },
   mounted: function mounted() {
+    this.periodsByLevel();
     this.getDataRelated();
   },
   methods: {
@@ -5885,7 +5915,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         statusItem = item.status_name;
       }
 
-      return "<img src=\"".concat(item.image_url, "\" height=\"150\" alt=\"\">\n            <div class=\"card-body m-0 p-0\">\n                <div class=\"card-body m-0\" style=\"height:150px\">\n                    <p class=\"m-0\">").concat(item.theme_name, "</p>\n                    <h3 title=\"").concat(name, "\">").concat(name.substring(0, 25), "</h3>\n                    <div class=\"row\">\n                        <div class=\"col-8\">\n                            <p class=\"m-0\" style=\"color:").concat(colorItem, "\">").concat(statusItem, "</p>\n                        </div>\n                        <div class=\"col-4\">\n                            <a href=\"").concat(item.url_global_info, "\" target=\"_blank\">\n                                Ver m\xE1s\n                            </a> \n                        </div>\n                    </div>\n                </div>\n            </div>\n            ");
+      return "<img src=\"".concat(item.image_url, "\" height=\"150\" alt=\"\">\n            <div class=\"card-body m-0 p-0\">\n                <div class=\"card-body m-0\" style=\"height:150px\">\n                    <p class=\"m-0\">").concat(item.theme_name, "</p>\n                    <h3 title=\"").concat(name, "\">").concat(name.substring(0, 25), "</h3>\n                    <div class=\"row\">\n                        <div class=\"col-8\">\n                            <p class=\"m-0\" style=\"color:").concat(colorItem, "\">").concat(statusItem, "</p>\n                        </div>\n                        <div class=\"col-4\">\n                            <a href=\"").concat(item.url_global_info, "\" target=\"_blank\">\n                                Ver info...\n                            </a> \n                        </div>\n                    </div>\n                </div>\n            </div>\n            ");
     },
     periodsByLevel: function periodsByLevel(e) {
       var t = this;
@@ -41364,6 +41394,7 @@ var render = function () {
       _vm.level_id > 1
         ? _c("select-form-component", {
             attrs: {
+              hide_option: true,
               name: "state_id",
               title: "Estado",
               method: _vm.getFunctionariesCameras,
@@ -41387,77 +41418,132 @@ var render = function () {
             0
           )
         : _c("div", { staticClass: "mb-3" }, [
-            _c("h5", { staticClass: "text-center" }, [
-              _vm._v("Cargando datos..."),
+            _c("h5", { staticClass: "text-center pt-5 pb-5" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_functionaries
+                      ? "Cargando datos..."
+                      : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
             ]),
           ]),
       _vm._v(" "),
-      _c("h2", { staticClass: "text-center" }, [
-        _vm._v("Discusión o temas tratados"),
-      ]),
+      _vm._m(1),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-4" },
-          [
-            _c("h3", { staticClass: "text-center" }, [
-              _vm._v("Propuestas / Promesas"),
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
+      _vm.proposals.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row" },
             _vm._l(_vm.proposals, function (proposal) {
-              return _c("project-card-component", {
-                key: "proposal-" + proposal.id,
-                staticClass: "mb-3",
-                attrs: { project: _vm.formatLikeProject(proposal) },
-              })
+              return _c(
+                "div",
+                { key: "proposal-" + proposal.id, staticClass: "col-md-4" },
+                [
+                  _c("project-card-component", {
+                    key: "proposal-card-" + proposal.id,
+                    staticClass: "mb-3",
+                    attrs: { project: _vm.formatLikeProject(proposal) },
+                  }),
+                ],
+                1
+              )
             }),
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-md-4" },
-          [
-            _c("h3", { staticClass: "text-center" }, [_vm._v("Leyes")]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
+            0
+          )
+        : _c("div", [
+            _c("h5", { staticClass: "text-center" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_proposals
+                      ? "Cargando..."
+                      : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm.laws.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row" },
             _vm._l(_vm.laws, function (law) {
-              return _c("project-card-component", {
-                key: "law-" + law.id,
-                staticClass: "mb-3",
-                attrs: { project: _vm.formatLikeProject(law) },
-              })
+              return _c(
+                "div",
+                { key: "law-" + law.id, staticClass: "col-md-4" },
+                [
+                  _c("project-card-component", {
+                    key: "law-card-" + law.id,
+                    staticClass: "mb-3",
+                    attrs: { project: _vm.formatLikeProject(law) },
+                  }),
+                ],
+                1
+              )
             }),
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-md-4" },
-          [
-            _c("h3", { staticClass: "text-center" }, [_vm._v("Proyectos")]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
+            0
+          )
+        : _c("div", [
+            _c("h5", { staticClass: "text-center" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_laws ? "Cargando..." : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm.projects.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row" },
             _vm._l(_vm.projects, function (project) {
-              return _c("project-card-component", {
-                key: "project-" + project.id,
-                staticClass: "mb-3",
-                attrs: { project: project },
-              })
+              return _c(
+                "div",
+                {
+                  key: "project-" + project.id,
+                  staticClass: "col-md-4",
+                  attrs: { project: project },
+                },
+                [
+                  _c("project-card-component", {
+                    key: "project-card-" + project.id,
+                    staticClass: "mb-3",
+                    attrs: { project: project },
+                  }),
+                ],
+                1
+              )
             }),
-          ],
-          2
-        ),
-      ]),
+            0
+          )
+        : _c("div", [
+            _c("h5", { staticClass: "text-center" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_projects ? "Cargando..." : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
     ],
     1
   )
@@ -41472,6 +41558,24 @@ var staticRenderFns = [
       _c("br"),
       _vm._v(" \n        Una ciudadanía informada ayuda a México\n    "),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("Propuestas / Promesas")])])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("Leyes")])])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("Proyectos")])])
   },
 ]
 render._withStripped = true
@@ -41882,6 +41986,7 @@ var render = function () {
                     title: "Nivel",
                     method: _vm.periodsByLevel,
                     items: _vm.levels,
+                    hide_option: true,
                   },
                 }),
               ],
@@ -41894,7 +41999,7 @@ var render = function () {
               [
                 _c("select-form-component", {
                   attrs: {
-                    name: "level_id",
+                    name: "period_id",
                     title: "Periodos",
                     method: _vm.getDataRelated,
                     items: _vm.periods,
@@ -42357,7 +42462,7 @@ var render = function () {
           _c(
             "a",
             { attrs: { href: _vm.project.url_global_info, target: "_blank" } },
-            [_vm._v("\n                    Ver más\n                ")]
+            [_vm._v("\n                    Ver info...\n                ")]
           ),
         ]),
       ]),
@@ -42419,7 +42524,7 @@ var render = function () {
                       { attrs: { href: activity.url, target: "_blank" } },
                       [
                         _vm._v(
-                          "\n                        Ver más\n                    "
+                          "\n                        Ver todo...\n                    "
                         ),
                       ]
                     ),

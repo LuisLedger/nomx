@@ -201,8 +201,7 @@ class Functionary extends Model
 
         if ($this->functionary_assistances()->count() > 0) {
             $assistance = $this->functionary_assistances()
-            ->whereDate('incidence_date', $today)
-            ->where('period_id',$period->period_id)->first();
+            ->whereDate('incidence_date', $today)->first();
         }
         
 
