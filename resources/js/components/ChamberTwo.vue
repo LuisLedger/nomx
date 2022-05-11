@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h2 class="text-center">Cámara de Diputados</h2>
+        <h2 class="text-center">Senado</h2>
         <p class="text-muted text-center" v-if="(schedule===null)?true:false">No hay sesión programada hoy</p>
         <p class="text-muted text-center">Discusiones hoy en la cámara federal
             <br> 
@@ -148,7 +148,9 @@
                 }
 
                 if (t.level_id == 2) {
-                    data.functionary_type_id = 10
+                    data.functionary_type_id = 11
+                } else {
+                    data.functionary_type_id = 5
                 }
 
                 if ($('[name="politic_group_id"]').val() != '') {

@@ -38,6 +38,7 @@ Vue.component('functionaries-by-level-component', require('./components/Function
 Vue.component('functionary-details-component', require('./components/FunctionaryDetails.vue').default);
 Vue.component('important-themes-component', require('./components/ImportantThemes.vue').default);
 Vue.component('chamber-one-component', require('./components/ChamberOne.vue').default);
+Vue.component('chamber-two-component', require('./components/ChamberTwo.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -5355,10 +5355,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['states', 'today'],
   data: function data() {
     return {
+      schedule: null,
       functionaries: [],
       load_functionaries: false,
       politic_groups: [],
@@ -5445,7 +5447,275 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }).done(function (response) {
         if (response.http_code == 200) {
           t.load_functionaries = false;
-          t.functionaries = response.data;
+          t.functionaries = response.data.functionaries;
+          t.schedule = response.data.schedule;
+          t.getLaws();
+          t.getProjects();
+          t.getProposals();
+        }
+      });
+    },
+    getLaws: function getLaws() {
+      var t = this;
+      t.load_laws = true;
+      $.ajax({
+        type: 'get',
+        url: '/themes/laws',
+        data: t.query_string_data,
+        dataType: 'json'
+      }).done(function (response) {
+        if (response.http_code == 200) {
+          if (response.data.data.length > 0) {
+            $.each(response.data.data, function (i, el) {
+              t.laws = [].concat(_toConsumableArray(t.laws), [el]);
+            });
+          }
+
+          t.load_laws = false;
+        }
+      });
+    },
+    getProjects: function getProjects() {
+      var t = this;
+      t.load_projects = true;
+      $.ajax({
+        type: 'get',
+        url: '/themes/projects',
+        data: t.query_string_data,
+        dataType: 'json'
+      }).done(function (response) {
+        if (response.http_code == 200) {
+          t.load_projects = false;
+
+          if (response.data.data.length > 0) {
+            $.each(response.data.data, function (i, el) {
+              t.projects = [].concat(_toConsumableArray(t.projects), [el]);
+            });
+          }
+        }
+      });
+    },
+    getProposals: function getProposals() {
+      var t = this;
+      t.load_proposals = true;
+      $.ajax({
+        type: 'get',
+        url: '/themes/proposals',
+        data: t.query_string_data,
+        dataType: 'json'
+      }).done(function (response) {
+        if (response.http_code == 200) {
+          t.load_proposals = false;
+
+          if (response.data.data.length > 0) {
+            $.each(response.data.data, function (i, el) {
+              t.proposals = [].concat(_toConsumableArray(t.proposals), [el]);
+            });
+          }
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberTwo.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberTwo.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['states', 'today'],
+  data: function data() {
+    return {
+      schedule: null,
+      functionaries: [],
+      load_functionaries: false,
+      politic_groups: [],
+      level_id: 1,
+      functionary_type: 10,
+      proposals: [],
+      load_proposals: false,
+      laws: [],
+      load_laws: false,
+      projects: [],
+      load_projects: false,
+      query_string_data: []
+    };
+  },
+  mounted: function mounted() {
+    this.getPoliticGroupByLevel();
+  },
+  methods: {
+    formatLikeProject: function formatLikeProject(item) {
+      var data = {
+        image_url: item.image_url,
+        theme_name: item.theme_name,
+        project_name: null,
+        status_name: item.status_name,
+        url_global_info: item.url_global_info
+      };
+
+      if (item.hasOwnProperty('law_name')) {
+        data.project_name = item.law_name;
+      } else if (item.hasOwnProperty('proposal_name')) {
+        data.project_name = item.proposal_name;
+      }
+
+      return data;
+    },
+    getPoliticGroupByLevel: function getPoliticGroupByLevel() {
+      var t = this;
+      t.level_id = $('[name="level_id"]').val() != '' ? $('[name="level_id"]').val() : t.level_id;
+
+      if (t.level_id) {
+        $.ajax({
+          type: 'get',
+          url: '/politic_groups_by_level/' + t.level_id,
+          dataType: 'json'
+        }).done(function (response) {
+          if (response.http_code == 200) {
+            t.politic_groups = response.data;
+            t.getFunctionariesCameras();
+          }
+        });
+      }
+    },
+    getFunctionariesCameras: function getFunctionariesCameras() {
+      var t = this;
+      var data = {
+        limit: 3,
+        votation_date: t.today
+      };
+
+      if (t.level_id != '') {
+        data.level_id = t.level_id;
+      }
+
+      if (t.level_id == 2) {
+        data.functionary_type_id = 11;
+      } else {
+        data.functionary_type_id = 5;
+      }
+
+      if ($('[name="politic_group_id"]').val() != '') {
+        data.politic_group_id = $('[name="politic_group_id"]').val();
+      }
+
+      if ($('[name="state_id"]').val() != '') {
+        data.state_id = $('[name="state_id"]').val();
+      }
+
+      t.query_string_data = data;
+      t.functionaries = [];
+      t.load_functionaries = true;
+      $.ajax({
+        type: 'get',
+        url: 'functionary_cameras',
+        data: data,
+        dataType: 'json'
+      }).done(function (response) {
+        if (response.http_code == 200) {
+          t.load_functionaries = false;
+          t.functionaries = response.data.functionaries;
+          t.schedule = response.data.schedule;
           t.getLaws();
           t.getProjects();
           t.getProposals();
@@ -6456,8 +6726,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['items'],
+  props: ['items', 'has_schedule'],
   data: function data() {
     return {};
   },
@@ -6859,6 +7133,7 @@ Vue.component('functionaries-by-level-component', (__webpack_require__(/*! ./com
 Vue.component('functionary-details-component', (__webpack_require__(/*! ./components/FunctionaryDetails.vue */ "./resources/js/components/FunctionaryDetails.vue")["default"]));
 Vue.component('important-themes-component', (__webpack_require__(/*! ./components/ImportantThemes.vue */ "./resources/js/components/ImportantThemes.vue")["default"]));
 Vue.component('chamber-one-component', (__webpack_require__(/*! ./components/ChamberOne.vue */ "./resources/js/components/ChamberOne.vue")["default"]));
+Vue.component('chamber-two-component', (__webpack_require__(/*! ./components/ChamberTwo.vue */ "./resources/js/components/ChamberTwo.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -40286,6 +40561,45 @@ component.options.__file = "resources/js/components/ChamberOne.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/ChamberTwo.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/ChamberTwo.vue ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ChamberTwo_vue_vue_type_template_id_e8d7110e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChamberTwo.vue?vue&type=template&id=e8d7110e& */ "./resources/js/components/ChamberTwo.vue?vue&type=template&id=e8d7110e&");
+/* harmony import */ var _ChamberTwo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChamberTwo.vue?vue&type=script&lang=js& */ "./resources/js/components/ChamberTwo.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ChamberTwo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ChamberTwo_vue_vue_type_template_id_e8d7110e___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ChamberTwo_vue_vue_type_template_id_e8d7110e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ChamberTwo.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/FunctionariesByLevels.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/FunctionariesByLevels.vue ***!
@@ -40848,6 +41162,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/ChamberTwo.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/ChamberTwo.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberTwo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ChamberTwo.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberTwo.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberTwo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/FunctionariesByLevels.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
   !*** ./resources/js/components/FunctionariesByLevels.vue?vue&type=script&lang=js& ***!
@@ -41085,6 +41415,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberOne_vue_vue_type_template_id_732cc693___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberOne_vue_vue_type_template_id_732cc693___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ChamberOne.vue?vue&type=template&id=732cc693& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberOne.vue?vue&type=template&id=732cc693&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ChamberTwo.vue?vue&type=template&id=e8d7110e&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/ChamberTwo.vue?vue&type=template&id=e8d7110e& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberTwo_vue_vue_type_template_id_e8d7110e___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberTwo_vue_vue_type_template_id_e8d7110e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChamberTwo_vue_vue_type_template_id_e8d7110e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ChamberTwo.vue?vue&type=template&id=e8d7110e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberTwo.vue?vue&type=template&id=e8d7110e&");
 
 
 /***/ }),
@@ -41348,6 +41695,12 @@ var render = function () {
     [
       _c("h2", { staticClass: "text-center" }, [_vm._v("Cámara de Diputados")]),
       _vm._v(" "),
+      (_vm.schedule === null ? true : false)
+        ? _c("p", { staticClass: "text-muted text-center" }, [
+            _vm._v("No hay sesión programada hoy"),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
       _c("hr"),
@@ -41411,7 +41764,284 @@ var render = function () {
               return _c(
                 "div",
                 { staticClass: "col-md-3 mb-3" },
-                [_c("functionary-list-component", { attrs: { items: items } })],
+                [
+                  _c("functionary-list-component", {
+                    attrs: {
+                      items: items,
+                      has_schedule: _vm.schedule == null ? false : true,
+                    },
+                  }),
+                ],
+                1
+              )
+            }),
+            0
+          )
+        : _c("div", { staticClass: "mb-3" }, [
+            _c("h5", { staticClass: "text-center pt-5 pb-5" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_functionaries
+                      ? "Cargando datos..."
+                      : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm.proposals.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.proposals, function (proposal) {
+              return _c(
+                "div",
+                { key: "proposal-" + proposal.id, staticClass: "col-md-4" },
+                [
+                  _c("project-card-component", {
+                    key: "proposal-card-" + proposal.id,
+                    staticClass: "mb-3",
+                    attrs: { project: _vm.formatLikeProject(proposal) },
+                  }),
+                ],
+                1
+              )
+            }),
+            0
+          )
+        : _c("div", [
+            _c("h5", { staticClass: "text-center" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_proposals
+                      ? "Cargando..."
+                      : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm.laws.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.laws, function (law) {
+              return _c(
+                "div",
+                { key: "law-" + law.id, staticClass: "col-md-4" },
+                [
+                  _c("project-card-component", {
+                    key: "law-card-" + law.id,
+                    staticClass: "mb-3",
+                    attrs: { project: _vm.formatLikeProject(law) },
+                  }),
+                ],
+                1
+              )
+            }),
+            0
+          )
+        : _c("div", [
+            _c("h5", { staticClass: "text-center" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_laws ? "Cargando..." : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm.projects.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.projects, function (project) {
+              return _c(
+                "div",
+                {
+                  key: "project-" + project.id,
+                  staticClass: "col-md-4",
+                  attrs: { project: project },
+                },
+                [
+                  _c("project-card-component", {
+                    key: "project-card-" + project.id,
+                    staticClass: "mb-3",
+                    attrs: { project: project },
+                  }),
+                ],
+                1
+              )
+            }),
+            0
+          )
+        : _c("div", [
+            _c("h5", { staticClass: "text-center" }, [
+              _c("b", [
+                _vm._v(
+                  _vm._s(
+                    _vm.load_projects ? "Cargando..." : "Sin datos para mostrar"
+                  )
+                ),
+              ]),
+            ]),
+          ]),
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "text-muted text-center" }, [
+      _vm._v("Discusiones hoy en la cámara federal\n        "),
+      _c("br"),
+      _vm._v(" \n        Una ciudadanía informada ayuda a México\n    "),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("Propuestas / Promesas")])])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("Leyes")])])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("b", [_vm._v("Proyectos")])])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberTwo.vue?vue&type=template&id=e8d7110e&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ChamberTwo.vue?vue&type=template&id=e8d7110e& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    [
+      _c("h2", { staticClass: "text-center" }, [_vm._v("Senado")]),
+      _vm._v(" "),
+      (_vm.schedule === null ? true : false)
+        ? _c("p", { staticClass: "text-muted text-center" }, [
+            _vm._v("No hay sesión programada hoy"),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-6" },
+          [
+            _c("select-form-component", {
+              attrs: {
+                name: "level_id",
+                title: "Nivel",
+                selected: _vm.level_id,
+                method: _vm.getPoliticGroupByLevel,
+                items: [
+                  { name: "Federal", id: 1 },
+                  { name: "Estatal", id: 2 },
+                ],
+                hide_option: true,
+              },
+            }),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-md-6" },
+          [
+            _c("select-form-component", {
+              attrs: {
+                name: "politic_group_id",
+                title: "Partido Político",
+                method: _vm.getFunctionariesCameras,
+                items: _vm.politic_groups,
+              },
+            }),
+          ],
+          1
+        ),
+      ]),
+      _vm._v(" "),
+      _vm.level_id > 1
+        ? _c("select-form-component", {
+            attrs: {
+              hide_option: true,
+              name: "state_id",
+              title: "Estado",
+              method: _vm.getFunctionariesCameras,
+              items: _vm.states,
+            },
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.functionaries.length > 0
+        ? _c(
+            "div",
+            { staticClass: "row mb-3" },
+            _vm._l(_vm.functionaries, function (items) {
+              return _c(
+                "div",
+                { staticClass: "col-md-3 mb-3" },
+                [
+                  _c("functionary-list-component", {
+                    attrs: {
+                      items: items,
+                      has_schedule: _vm.schedule == null ? false : true,
+                    },
+                  }),
+                ],
                 1
               )
             }),
@@ -42658,29 +43288,33 @@ var render = function () {
         [
           _vm._m(0),
           _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "badge badge-pill assistance",
-              style: {
-                backgroundColor: "white",
-                color: "black",
-                marginLeft: "auto !important",
-              },
-              attrs: { title: "¿Asistió el funcionario a la cámara?" },
-            },
-            [_c("i", { staticClass: "fa fa-check" })]
-          ),
+          _vm.has_schedule
+            ? _c(
+                "span",
+                {
+                  staticClass: "badge badge-pill assistance",
+                  style: {
+                    backgroundColor: "white",
+                    color: "black",
+                    marginLeft: "auto !important",
+                  },
+                  attrs: { title: "¿Asistió el funcionario a la cámara?" },
+                },
+                [_c("i", { staticClass: "fa fa-check" })]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "badge badge-secondary badge-pill ml-1",
-              style: { backgroundColor: "white", color: "black" },
-              attrs: { title: "Votó del funcionario" },
-            },
-            [_c("i", { staticClass: "fa fa-hand-paper-o" })]
-          ),
+          _vm.has_schedule
+            ? _c(
+                "span",
+                {
+                  staticClass: "badge badge-secondary badge-pill ml-1",
+                  style: { backgroundColor: "white", color: "black" },
+                  attrs: { title: "Votó del funcionario" },
+                },
+                [_c("i", { staticClass: "fa fa-hand-paper-o" })]
+              )
+            : _vm._e(),
         ]
       ),
       _vm._v(" "),
@@ -42709,20 +43343,32 @@ var render = function () {
               ]
             ),
             _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass: "badge badge-pill assistance",
-                style: {
-                  backgroundColor: item.assistance_today.color,
-                  marginLeft: "auto !important",
-                },
-                attrs: { title: item.assistance_today.assitance },
-              },
-              [_c("i", { class: item.assistance_today.icon })]
-            ),
+            _vm.has_schedule
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "badge badge-pill assistance",
+                    style: {
+                      backgroundColor: item.assistance_today.color,
+                      marginLeft: "auto !important",
+                    },
+                    attrs: { title: item.assistance_today.assitance },
+                  },
+                  [_c("i", { class: item.assistance_today.icon })]
+                )
+              : _vm._e(),
             _vm._v(" "),
-            _vm._m(1, true),
+            _vm.has_schedule
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "badge badge-pill vote ml-1",
+                    style: { backgroundColor: item.vote_today.color },
+                    attrs: { title: item.vote_today.vote_type },
+                  },
+                  [_c("i", { class: item.vote_today.icon })]
+                )
+              : _vm._e(),
           ]
         )
       }),
@@ -42739,16 +43385,6 @@ var staticRenderFns = [
       "p",
       { staticClass: "m-0", staticStyle: { "font-size": "9px" } },
       [_c("b", [_vm._v("NOMBRE")])]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "span",
-      { staticClass: "badge badge-secondary badge-pill badge-secondary ml-1" },
-      [_c("i", { staticClass: "fa fa-remove" })]
     )
   },
 ]

@@ -10,6 +10,7 @@ use App\Models\Period;
 use App\Models\Project;
 use App\Models\Proposal;
 use App\Models\PoliticGroup;
+use App\Models\ScheduleSession;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -53,6 +54,12 @@ class HomeController extends Controller
         return view('chamber_dips',compact('menu'));
     }
 
+    public function chamber_sens(Request $request)
+    {
+        $menu = 'chamber_sens';
+        return view('chamber_sens',compact('menu'));
+    }
+
     public function functionary(Request $request, $id)
     {
         if (empty($id)) {
@@ -79,17 +86,22 @@ class HomeController extends Controller
     {
         $chunk = 125;
         $functionaries = Functionary::select();
+        $schedule      = ScheduleSession::where('session_date',date('Y-m-d'));
 
         if (isset($request->level_id)) {
             $chunk = ($request->level_id != 1)?14:$chunk;
             $functionaries = $functionaries->where('level_id', $request->level_id);
+            $schedule = $schedule->where('level_id', $request->level_id);
         } else {
             $functionaries = $functionaries->where('level_id', 1);
+            $schedule = $schedule->where('level_id', 1);
         }
 
         if (isset($request->functionary_type_id)) {
+            $schedule = $schedule->where('level_id', $request->functionary_type_id);
             $functionaries = $functionaries->where('functionary_type_id', $request->functionary_type_id);
         } else {
+            $schedule = $schedule->where('level_id', 4);
             $functionaries = $functionaries->where('functionary_type_id', 4);
         }
 
@@ -104,15 +116,20 @@ class HomeController extends Controller
         }
 
         if (isset($request->state_id)) {
+            $schedule = $schedule->where('state_id', $request->state_id);
             $functionaries = $functionaries->where('state_id', $request->state_id);
         }
 
         $functionaries = $functionaries->orderBy('first_name','ASC')->orderby('middle_name', 'ASC')->orderBy('last_name','ASC')->get()->toArray();
+        $schedule = $schedule->first();
         
         $this->content['http_code'] = 200;
         $this->content['status']    = 'success';
 
-        $this->content['data'] = array_chunk($functionaries, $chunk,true);
+        $this->content['data'] = [
+            'schedule'      => $schedule,
+            'functionaries' => array_chunk($functionaries, $chunk,true)
+        ];
 
         return response()->json($this->content);
     }
@@ -299,6 +316,18 @@ class HomeController extends Controller
         $this->content['status']    = 'success';
 
         $this->content['data'] = $proposals;
+
+        return response()->json($this->content);
+    }
+
+    public function schedule_session(Request $request)
+    {
+        $schedules = ScheduleSession::getSchedule($request)->get();
+
+        $this->content['http_code'] = 200;
+        $this->content['status']    = 'success';
+
+        $this->content['data'] = $schedules;
 
         return response()->json($this->content);
     }

@@ -15,7 +15,7 @@ class FunctionaryAssistance extends Model
     ];
 
     public static $statuses_color = [
-        1 => 'yellow',
+        1 => 'red',
         2 => 'gray',
     ];
 

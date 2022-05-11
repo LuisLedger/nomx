@@ -29,7 +29,7 @@
                     <a class="nav-link" href="{{ route('chamber_dips') }}">{{ __('Diputados') }}</a>
                 </li>
                 <li class="nav-item {{ ($menu == 'chamber_sens')?'active':''}}">
-                    <a class="nav-link" href="#">{{ __('Senadores') }}</a>
+                    <a class="nav-link" href="{{ route('chamber_sens') }}">{{ __('Senadores') }}</a>
                 </li>
                 @guest
                     @if (Route::has('register'))

@@ -29,6 +29,7 @@ Route::get('/search',[HomeController::class,'search'])->name('search');
 Route::get('/find_functionaries',[HomeController::class,'find_functionaries'])->name('find_functionaries');
 Route::get('/themes',[HomeController::class,'themes'])->name('themes');
 Route::get('/chamber_dips',[HomeController::class,'chamber_dips'])->name('chamber_dips');
+Route::get('/chamber_sens',[HomeController::class,'chamber_sens'])->name('chamber_sens');
 Route::get('/functionary/{id}/detail',[HomeController::class,'functionary']);
 
 /*Api*/
@@ -47,6 +48,7 @@ Route::get('/themes/laws', [HomeController::class,'laws']);
 Route::get('/themes/projects', [HomeController::class,'projects']);
 Route::get('/themes/proposals', [HomeController::class,'proposals']);
 Route::get('/functionary_cameras',[HomeController::class,'functionary_cameras']);
+Route::get('/schedule_session',[HomeController::class,'schedule_session']);
 
 Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::resource('levels.functionary_types', FunctionaryTypeController::class);

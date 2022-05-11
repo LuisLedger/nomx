@@ -20,7 +20,8 @@ class Functionary extends Model
         'delegation_name',
         'location_name',
         'commission_name',
-        'assistance_today'
+        'assistance_today',
+        'vote_today'
     ];
 
     public function level()
@@ -201,7 +202,7 @@ class Functionary extends Model
 
         if ($this->functionary_assistances()->count() > 0) {
             $assistance = $this->functionary_assistances()
-            ->whereDate('incidence_date', $today)->first();
+                ->whereDate('incidence_date', $today)->first();
         }
         
 
@@ -211,6 +212,40 @@ class Functionary extends Model
                 'assitance' => $assistance->assistance_name,
                 'color'     => $assistance->assistance_color,
                 'icon'      => $assistance->assistance_icon
+            ];
+        }
+
+        return $res;
+    }
+
+    public function getVoteTodayAttribute()
+    {
+        $today = date('Y-m-d');
+        
+        $res   = [
+            'confirm'   => false,
+            'vote_type' => 'Sin votar',
+            'color'     => 'gray',
+            'icon'      => 'fa fa-ban'
+        ];
+
+        $period = $this->functionary_periods()->where('status',1)->first();
+
+        $vote = null;
+
+        if ($this->functionary_votes()->count() > 0) {
+            $vote = $this->functionary_votes()
+                ->where('level_id', $this->level_id)
+                ->whereDate('vote_day', $today)->first();
+        }
+        
+
+        if (!empty($vote)) {
+            $res   = [
+                'confirm'   => true,
+                'vote_type' => $vote->vote_type->name,
+                'color'     => $vote->vote_type->color,
+                'icon'      => \App\Models\FunctionaryVote::$icons[$vote->vote_type->id]
             ];
         }
 
