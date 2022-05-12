@@ -32,8 +32,10 @@ Vue.component('functionary-projects-component', require('./components/landing/Fu
 Vue.component('functionary-laws-component', require('./components/landing/FunctionaryLaws.vue').default);
 Vue.component('functionary-proposal-component', require('./components/landing/FunctionaryProposal.vue').default);
 Vue.component('functionary-list-component', require('./components/landing/FunctionaryList.vue').default);
+Vue.component('search-element-component', require('./components/landing/SearchComponent.vue').default);
 
 /*MODULE COMPONENT*/
+Vue.component('search-component', require('./components/Search.vue').default);
 Vue.component('functionaries-by-level-component', require('./components/FunctionariesByLevels.vue').default);
 Vue.component('functionary-details-component', require('./components/FunctionaryDetails.vue').default);
 Vue.component('important-themes-component', require('./components/ImportantThemes.vue').default);

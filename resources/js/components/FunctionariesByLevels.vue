@@ -1,6 +1,7 @@
 <template>
-    <section class="mt-5 pt-5">
+    <section>
         <h2 class="text-center">Conoce más de tu gobierno <br><small class="text-muted">Por nivel</small></h2>
+        <hr>
         <div class="row mb-5">
             <div class="col-md-4 mb-3" v-for="level in levels">
                 <a @click.prevent="getFunctionaryTypes(level.id)" href="#functionary_types" class="card-link">
@@ -11,7 +12,7 @@
         <h2 class="text-center">Encuentra a tus representantes <br><small class="text-muted">Por tipo de cargo</small></h2>
         <hr>
         <div class="row" v-if="functionary_types.length > 0" id="types-functionaries">
-            <div class="col-md-4 mb-3" v-for="functionary_type in functionary_types" >
+            <div class="col-md-3 mb-3" v-for="functionary_type in functionary_types" >
                 <a @click.prevent="getFunctionariesByTypesAndLocations" :data-type="functionary_type.id" :id="'type-'+functionary_type.id" href="#functionaries" class="card-link">
                     <card-component :body="functionaryTypeBody(functionary_type)" :class="(functionary_type.id == selected_functionary_type)?'selected':''"></card-component>
                 </a>

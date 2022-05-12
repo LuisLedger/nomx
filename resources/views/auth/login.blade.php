@@ -1,6 +1,7 @@
 @extends('layouts.app',[
     'no_padding_top' => true,
-    'show_header'    => false
+    'show_header'    => false,
+    'view_footer'    => false
 ])
 
 @section('css')

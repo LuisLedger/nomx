@@ -33,13 +33,7 @@ class HomeController extends Controller
     public function index()
     {
         $menu = 'home';
-        return view('welcome',compact('menu'));
-    }
-
-    public function search(Request $request)
-    {
-        $menu = 'search';
-
+        return view('principal',compact('menu'));
     }
 
     public function find_functionaries(Request $request)
