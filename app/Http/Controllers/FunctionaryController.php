@@ -29,7 +29,11 @@ class FunctionaryController extends Controller
         $this->content['http_code'] = 200;
         $this->content['status'] = 'success';
         if (\Request::ajax()) {
-            $this->content['data'] = $functionaries->orderBy('first_name','ASC')->orderby('middle_name', 'ASC')->orderBy('last_name','ASC')->get();
+            $this->content['data'] = $functionaries
+                ->orderBy('first_name','ASC')
+                ->orderby('middle_name', 'ASC')
+                ->orderBy('last_name','ASC')
+                ->paginate($request->limit)->appends($request->all());
             return response()->json($this->content);
         }
 

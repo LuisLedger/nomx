@@ -285,6 +285,16 @@ class Functionary extends Model
             $query = $query->where('functionary_type_id', $request->functionary_type_id);
         }
 
+        if (isset($request->q)) {
+            $string = $request->q;
+            $query = $query->where(function($q) use($string){
+                $q->where('first_name', 'like', '%'.$string.'%');
+                $q->orWhere('middle_name', 'like', '%'.$string.'%');
+                $q->orWhere('last_name', 'like', '%'.$string.'%');
+                $q->orWhere('general_description', 'like', '%'.$string.'%');
+            });
+        }
+
         return $query;
     }
 }

@@ -47,6 +47,7 @@ Route::get('/laws_projects_proposals', [HomeController::class,'laws_projects_pro
 Route::get('/themes/laws', [HomeController::class,'laws']);
 Route::get('/themes/projects', [HomeController::class,'projects']);
 Route::get('/themes/proposals', [HomeController::class,'proposals']);
+Route::get('/themes/functionaries', [HomeController::class,'functionaries']);
 Route::get('/functionary_cameras',[HomeController::class,'functionary_cameras']);
 Route::get('/schedule_session',[HomeController::class,'schedule_session']);
 Route::get('/search_query',[HomeController::class,'search_query']);

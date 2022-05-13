@@ -5798,6 +5798,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
 //
 //
 //
@@ -5840,8 +5855,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selected_level: 1,
       selected_functionary_type: 1,
+      page: 1,
+      last_page: 1,
       functionary_types: [],
-      functionaries: []
+      functionaries: [],
+      last_query_string: {}
     };
   },
   mounted: function mounted() {
@@ -5849,13 +5867,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     levelBody: function levelBody(text) {
-      return "<div class=\"card-body m-0\"><h3>".concat(text, "</h3></div>");
+      return "<div class=\"card-body m-0\"><h3 class=\"text-center\">".concat(text, "</h3></div>");
     },
     functionaryTypeBody: function functionaryTypeBody(functionary_type) {
       var level = this.levels.find(function (el) {
         return el.id == functionary_type.level_id;
       });
-      return "<div class=\"card-body m-0\">\n                <h3>".concat(functionary_type.name, "</h3>\n                <p class=\"text-muted\">").concat(level.name, "</p>\n            </div>\n            ");
+      return "<div class=\"card-body m-0\" style=\"height:100.23px\">\n                <h5 class=\"m-0\">".concat(functionary_type.name, "</h5>\n                <p class=\"text-muted m-0\">").concat(level.name, "</p>\n            </div>\n            ");
     },
     getFunctionaryTypes: function getFunctionaryTypes() {
       var level_id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -5868,10 +5886,10 @@ __webpack_require__.r(__webpack_exports__);
         url += '?level_id=' + level_id;
       }
 
+      t.functionaries = [];
       $.get(url).done(function (response) {
         if (response.http_code == 200) {
-          t.functionary_types = response.data;
-          window.scrollTo(0, document.body.scrollHeight);
+          t.functionary_types = response.data; // window.scrollTo(0, document.body.scrollHeight);
         }
       });
     },
@@ -5883,19 +5901,43 @@ __webpack_require__.r(__webpack_exports__);
     },
     getFunctionariesData: function getFunctionariesData() {
       var t = this;
+      var valid_search = false;
       var data = {
+        limit: 6,
         functionary_type_id: t.selected_functionary_type,
-        level_id: t.selected_level
+        level_id: t.selected_level,
+        page: t.page
       };
 
       if ($('[name="state_id"]').val() !== '') {
+        valid_search = true;
         data.state_id = $('[name="state_id"]').val();
       }
 
       if ($('[name="delegation_id"]').val() !== '') {
+        valid_search = true;
         data.delegation_id = $('[name="delegation_id"]').val();
       }
 
+      if (data.level_id > 1) {
+        if (valid_search == false) {
+          return;
+        }
+      }
+
+      if (t.last_query_string.functionary_type_id != data.functionary_type_id) {
+        t.page = 1;
+        t.last_page = 1;
+        t.functionaries = [];
+      }
+
+      if (t.last_query_string.level_id != data.level_id) {
+        t.page = 1;
+        t.last_page = 1;
+        t.functionaries = [];
+      }
+
+      t.last_query_string = data;
       $.ajax({
         type: 'get',
         url: '/functionaries_search',
@@ -5903,8 +5945,13 @@ __webpack_require__.r(__webpack_exports__);
         dataType: 'json'
       }).done(function (response) {
         if (response.http_code == 200) {
-          t.functionaries = response.data;
-          window.scrollTo(0, document.body.scrollHeight);
+          if (response.data.data.length > 0) {
+            t.last_page = response.data.last_page;
+            $.each(response.data.data, function (i, el) {
+              t.functionaries = [].concat(_toConsumableArray(t.functionaries), [el]);
+            });
+            t.page++;
+          }
         }
       });
     }
@@ -6374,18 +6421,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6469,6 +6513,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     return {
       first_load: true,
       search: null,
+      data_functionaries: {
+        functionaries: [],
+        page: 1,
+        last_page: 1,
+        loading: false
+      },
       data_projects: {
         projects: [],
         page: 1,
@@ -6559,6 +6609,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           t.data_proposals.proposals = response.data.proposals.data;
           t.data_proposals.loading = false;
           t.data_proposals.page++;
+          t.data_functionaries.last_page = response.data.functionaries.last_page;
+          t.data_functionaries.functionaries = response.data.functionaries.data;
+          t.data_functionaries.loading = false;
+          t.data_functionaries.page++;
         }
       });
     },
@@ -6569,6 +6623,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return;
       }
 
+      t.query_string_data.limit = 12;
       t.query_string_data.page = t.data_laws.page;
       $.ajax({
         type: 'get',
@@ -6578,13 +6633,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }).done(function (response) {
         if (response.http_code == 200) {
           t.data_laws.last_page = response.data.last_page;
-
-          if (response.data.data.length > 0) {
-            $.each(response.data.data, function (i, el) {
-              t.data_laws.laws = [].concat(_toConsumableArray(t.data_laws.laws), [el]);
-            });
-          }
-
+          t.data_laws.laws = response.data.data;
           t.data_laws.page++;
         }
       });
@@ -6596,6 +6645,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return;
       }
 
+      t.query_string_data.limit = 12;
       t.query_string_data.page = t.data_projects.page;
       $.ajax({
         type: 'get',
@@ -6605,13 +6655,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }).done(function (response) {
         if (response.http_code == 200) {
           t.data_projects.last_page = response.data.last_page;
-
-          if (response.data.data.length > 0) {
-            $.each(response.data.data, function (i, el) {
-              t.data_projects.projects = [].concat(_toConsumableArray(t.data_projects.projects), [el]);
-            });
-          }
-
+          t.data_projects.projects = response.data.data;
           t.data_projects.page++;
         }
       });
@@ -6623,6 +6667,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return;
       }
 
+      t.query_string_data.limit = 12;
       t.query_string_data.page = t.data_proposals.page;
       $.ajax({
         type: 'get',
@@ -6632,14 +6677,30 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }).done(function (response) {
         if (response.http_code == 200) {
           t.data_proposals.last_page = response.data.last_page;
-
-          if (response.data.data.length > 0) {
-            $.each(response.data.data, function (i, el) {
-              t.data_proposals.proposals = [].concat(_toConsumableArray(t.data_proposals.proposals), [el]);
-            });
-          }
-
+          t.data_proposals.proposals = response.data.data;
           t.data_proposals.page++;
+        }
+      });
+    },
+    getFunctionaries: function getFunctionaries() {
+      var t = this;
+
+      if (t.data_functionaries.last_page < t.data_functionaries.page) {
+        return;
+      }
+
+      t.query_string_data.limit = 3;
+      t.query_string_data.page = t.data_functionaries.page;
+      $.ajax({
+        type: 'get',
+        url: '/themes/functionaries',
+        data: t.query_string_data,
+        dataType: 'json'
+      }).done(function (response) {
+        if (response.http_code == 200) {
+          t.data_functionaries.last_page = response.data.last_page;
+          t.data_functionaries.functionaries = response.data.data;
+          t.data_functionaries.page++;
         }
       });
     }
@@ -42750,7 +42811,7 @@ var render = function () {
           "div",
           { staticClass: "row", attrs: { id: "types-functionaries" } },
           _vm._l(_vm.functionary_types, function (functionary_type) {
-            return _c("div", { staticClass: "col-md-3 mb-3" }, [
+            return _c("div", { staticClass: "col-2 mb-3" }, [
               _c(
                 "a",
                 {
@@ -42807,19 +42868,32 @@ var render = function () {
       ? _c(
           "div",
           { staticClass: "row", attrs: { id: "list-functionaries" } },
-          _vm._l(_vm.functionaries, function (functionary) {
-            return _c(
-              "div",
-              { staticClass: "col-md-4 mb-3" },
-              [
-                _c("card-functionary-component", {
-                  attrs: { functionary: functionary },
-                }),
-              ],
-              1
-            )
-          }),
-          0
+          [
+            _vm._l(_vm.functionaries, function (functionary) {
+              return _c(
+                "div",
+                { staticClass: "col-md-4 mb-3" },
+                [
+                  _c("card-functionary-component", {
+                    attrs: { functionary: functionary },
+                  }),
+                ],
+                1
+              )
+            }),
+            _vm._v(" "),
+            (_vm.last_page > _vm.page ? true : false)
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-link btn-block",
+                    on: { click: _vm.getFunctionariesData },
+                  },
+                  [_vm._v("\n            Listar más...\n        ")]
+                )
+              : _vm._e(),
+          ],
+          2
         )
       : _c("div", [
           _c("h3", { staticClass: "text-center" }, [
@@ -42838,7 +42912,9 @@ var staticRenderFns = [
     return _c("h2", { staticClass: "text-center" }, [
       _vm._v("Conoce más de tu gobierno "),
       _c("br"),
-      _c("small", { staticClass: "text-muted" }, [_vm._v("Por nivel")]),
+      _c("small", { staticClass: "text-muted" }, [
+        _vm._v("Por nivel de gobierno"),
+      ]),
     ])
   },
   function () {
@@ -43358,68 +43434,43 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.first_load
-    ? _c(
+  return _c(
+    "div",
+    {
+      class: _vm.first_load ? "container" : "container mt-5",
+      style: _vm.first_load
+        ? { marginTop: "15rem", marginBottom: "15rem" }
+        : {},
+    },
+    [
+      _vm.first_load
+        ? _c("h1", { staticClass: "text-center" }, [
+            _vm._v("\n        ¡Bienvenido!\n    "),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.first_load
+        ? _c("p", { staticClass: "text-center text-muted" }, [
+            _vm._v(
+              "\n        Encuentra a tus funcionarios, propuestas, leyes o proyectos que y el estatus que tienen "
+            ),
+            _c("br"),
+            _vm._v("\n        en los distintos niveles de gobierno\n    "),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
         "div",
         {
-          staticClass: "container",
-          staticStyle: { "margin-top": "15rem", "margin-bottom": "15rem" },
+          class: _vm.first_load ? "form-group col-8 m-auto" : "form-group mb-3",
         },
         [
-          _c("h1", { staticClass: "text-center" }, [
-            _vm._v("\n        ¡Bienvenido!\n    "),
-          ]),
-          _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-8 m-auto" }, [
-            _c("label", { staticClass: "sr-only", attrs: { for: "search" } }, [
-              _vm._v("\n            Búscar\n        "),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group mb-2" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  id: "search",
-                  name: "search",
-                  placeholder: "Búscar información general",
-                  type: "text",
-                  autocomplete: "off",
-                },
-                domProps: { value: _vm.search },
-                on: {
-                  keyup: function ($event) {
-                    if (!$event.type.indexOf("key") && $event.keyCode !== 13) {
-                      return null
-                    }
-                    return _vm.setSearchValue.apply(null, arguments)
-                  },
-                },
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "input-group-append btn btn-primary",
-                  on: { click: _vm.setSearchValue },
-                },
-                [_vm._v("\n                    Búscar\n                ")]
-              ),
-            ]),
-          ]),
-        ]
-      )
-    : _c("div", { staticClass: "container mt-5" }, [
-        _c("div", { staticClass: "form-group mb-3" }, [
           _c("label", { staticClass: "sr-only", attrs: { for: "search" } }, [
             _vm._v("\n            Búscar\n        "),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "input-group mb-2" }, [
-            _vm._m(2),
+            _vm._m(0),
             _vm._v(" "),
             _c("input", {
               staticClass: "form-control",
@@ -43447,119 +43498,169 @@ var render = function () {
                 staticClass: "input-group-append btn btn-primary",
                 on: { click: _vm.setSearchValue },
               },
-              [_vm._v("\n                    Búscar\n                ")]
+              [
+                _c("i", { staticClass: "fa fa-search" }),
+                _vm._v(" Búscar\n                "),
+              ]
             ),
           ]),
-        ]),
-        _vm._v(" "),
-        _vm.data_projects.projects.length > 0
-          ? _c(
+        ]
+      ),
+      _vm._v(" "),
+      _vm.data_functionaries.functionaries.length > 0
+        ? _c("div", [
+            _c("h3", { staticClass: "d-flex justify-content-between" }, [
+              _c("b", [_vm._v("Funcionarios")]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary ml-auto",
+                  on: { click: _vm.getFunctionaries },
+                },
+                [
+                  _c("i", { staticClass: "fa fa-search" }),
+                  _vm._v(" Siguente\n            "),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c(
               "div",
-              [
-                _vm._m(3),
+              { staticClass: "row" },
+              _vm._l(
+                _vm.data_functionaries.functionaries,
+                function (functionary) {
+                  return _c(
+                    "div",
+                    { staticClass: "col-md-4 mb-3" },
+                    [
+                      _c("card-functionary-component", {
+                        attrs: { functionary: functionary },
+                      }),
+                    ],
+                    1
+                  )
+                }
+              ),
+              0
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.data_projects.projects.length > 0
+        ? _c(
+            "div",
+            [
+              _c("h3", { staticClass: "d-flex justify-content-between" }, [
+                _c("b", [_vm._v("Proyectos")]),
                 _vm._v(" "),
-                _c("hr"),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary ml-auto",
+                    on: { click: _vm.getProjects },
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-search" }),
+                    _vm._v(" Siguente\n            "),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _vm._l(_vm.data_projects.projects, function (item) {
+                return _c("search-element-component", {
+                  key: "projects-" + item.id,
+                  attrs: { item: _vm.formatLikeProject(item) },
+                })
+              }),
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.data_projects.projects.length > 0
+        ? _c(
+            "div",
+            [
+              _c("h3", { staticClass: "d-flex justify-content-between" }, [
+                _c("b", [_vm._v("Leyes")]),
                 _vm._v(" "),
-                _vm._l(_vm.data_projects.projects, function (item) {
-                  return _c("search-element-component", {
-                    key: "projects-" + item.id,
-                    attrs: { item: _vm.formatLikeProject(item) },
-                  })
-                }),
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.data_projects.projects.length > 0
-          ? _c(
-              "div",
-              [
-                _vm._m(4),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary ml-auto",
+                    on: { click: _vm.getLaws },
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-search" }),
+                    _vm._v(" Siguente\n            "),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _vm._l(_vm.data_laws.laws, function (item) {
+                return _c("search-element-component", {
+                  key: "laws-" + item.id,
+                  attrs: { item: _vm.formatLikeProject(item) },
+                })
+              }),
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.data_proposals.proposals.length > 0
+        ? _c(
+            "div",
+            [
+              _c("h3", { staticClass: "d-flex justify-content-between" }, [
+                _c("b", [_vm._v("Propuestas")]),
                 _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _vm._l(_vm.data_laws.laws, function (item) {
-                  return _c("search-element-component", {
-                    key: "laws-" + item.id,
-                    attrs: { item: _vm.formatLikeProject(item) },
-                  })
-                }),
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.data_proposals.proposals.length > 0
-          ? _c(
-              "div",
-              [
-                _vm._m(5),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _vm._l(_vm.data_proposals.proposals, function (item) {
-                  return _c("search-element-component", {
-                    key: "proposals-" + item.id,
-                    attrs: { item: _vm.formatLikeProject(item) },
-                  })
-                }),
-              ],
-              2
-            )
-          : _vm._e(),
-      ])
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary ml-auto",
+                    on: { click: _vm.getProposals },
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-search" }),
+                    _vm._v(" Siguente\n            "),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _vm._l(_vm.data_proposals.proposals, function (item) {
+                return _c("search-element-component", {
+                  key: "proposals-" + item.id,
+                  attrs: { item: _vm.formatLikeProject(item) },
+                })
+              }),
+            ],
+            2
+          )
+        : _vm._e(),
+    ]
+  )
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "text-center text-muted" }, [
-      _vm._v(
-        "\n        Encuentra a tus funcionarios, propuestas, leyes o proyectos que y el estatus que tienen "
-      ),
-      _c("br"),
-      _vm._v("\n        en los distintos niveles de gobierno\n    "),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("div", { staticClass: "input-group-text" }, [
         _c("i", { staticClass: "fa fa-search" }),
       ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("div", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-search" }),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", [_c("b", [_vm._v("Proyectos")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", [_c("b", [_vm._v("Leyes")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", [_c("b", [_vm._v("Propuestas")])])
   },
 ]
 render._withStripped = true
@@ -43701,48 +43802,52 @@ var render = function () {
           class: _vm.extra_class ? "card mt-3 " + _vm.extra_class : "card mt-3",
         },
         [
-          _c("div", { staticClass: "card-body m-0" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-4 m-auto" }, [
-                _c("img", {
-                  staticClass: "image-functionary",
-                  attrs: { src: _vm.functionary.profile_url, alt: "" },
-                }),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-8 pt-0 pb-0" }, [
-                _c("p", { staticClass: "m-0 text-muted" }, [
-                  _c("small", [
-                    _vm._v(_vm._s(_vm.functionary.functionary_type_name)),
+          _c(
+            "div",
+            { staticClass: "card-body m-0", staticStyle: { height: "202px" } },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-4 m-auto" }, [
+                  _c("img", {
+                    staticClass: "image-functionary",
+                    attrs: { src: _vm.functionary.profile_url, alt: "" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-8 pt-0 pb-0" }, [
+                  _c("p", { staticClass: "m-0 text-muted" }, [
+                    _c("small", [
+                      _vm._v(_vm._s(_vm.functionary.functionary_type_name)),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "m-0 text-left" }, [
+                    _vm._v(_vm._s(_vm.functionary.full_name)),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "m-0 text-left" }, [
+                    _vm._v(
+                      _vm._s(_vm.functionary.level_name) +
+                        " - " +
+                        _vm._s(_vm.formatDate(_vm.functionary.start_time))
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "m-0 text-left" }, [
+                    _vm._v(_vm._s(_vm.functionary.politic_group_name)),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "m-0 text-left text-muted" }, [
+                    _vm._v(
+                      _vm._s(_vm.functionary.state_name) +
+                        ", " +
+                        _vm._s(_vm.functionary.delegation_name)
+                    ),
                   ]),
                 ]),
-                _vm._v(" "),
-                _c("h3", { staticClass: "m-0 text-left" }, [
-                  _vm._v(_vm._s(_vm.functionary.full_name)),
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "m-0 text-left" }, [
-                  _vm._v(
-                    _vm._s(_vm.functionary.level_name) +
-                      " - " +
-                      _vm._s(_vm.formatDate(_vm.functionary.start_time))
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "m-0 text-left" }, [
-                  _vm._v(_vm._s(_vm.functionary.politic_group_name)),
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "m-0 text-left text-muted" }, [
-                  _vm._v(
-                    _vm._s(_vm.functionary.state_name) +
-                      ", " +
-                      _vm._s(_vm.functionary.delegation_name)
-                  ),
-                ]),
               ]),
-            ]),
-          ]),
+            ]
+          ),
         ]
       ),
     ]
