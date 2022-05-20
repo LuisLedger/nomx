@@ -97,7 +97,7 @@ class Functionary extends Model
     /* Attributes */
     public function getFullNameAttribute()
     {
-        return $this->first_name.' '.$this->middle_name.' '.$this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getLevelNameAttribute()
@@ -289,7 +289,6 @@ class Functionary extends Model
             $string = $request->q;
             $query = $query->where(function($q) use($string){
                 $q->where('first_name', 'like', '%'.$string.'%');
-                $q->orWhere('middle_name', 'like', '%'.$string.'%');
                 $q->orWhere('last_name', 'like', '%'.$string.'%');
                 $q->orWhere('general_description', 'like', '%'.$string.'%');
             });

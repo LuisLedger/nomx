@@ -71,12 +71,12 @@
                                 {{ __('Ingresar') }}
                             </button>
                         </div>
-                        <div class="flex items-center justify-end mt-3 mb-3">
+                        {{-- <div class="flex items-center justify-end mt-3 mb-3">
                             <a class="btn" href="{{ url('auth/twitter') }}"
                                 style="background: #1E9DEA; padding: 10px; width: 100%; text-align: center; display: block; border-radius:4px; color: #ffffff;">
                                 Login with Twitter
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link btn-block" href="{{ route('password.request') }}">
@@ -92,7 +92,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-6 text-white showcase-img d-none d-md-block" style="background-image: url('https://fakeimg.pl/800x800/?text=Imagen Informativa'); height: 100%;background-size: cover;"></div>
+                <div class="col-md-6 text-white showcase-img d-none d-md-block" style="background-image: url('https://images.unsplash.com/photo-1568402102990-bc541580b59f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'); height: 100%;background-size: cover;"></div>
             </div>
         </div>
     </section>

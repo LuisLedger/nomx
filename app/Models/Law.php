@@ -34,12 +34,40 @@ class Law extends Model
         'status_name',
         'status_color',
         'status_icon',
-        'theme_name'
+        'theme_name',
+        'created',
+        'updated',
+        'specialist'
     ];
+
+    public function period()
+    {
+        return $this->hasOne('App\Models\Period', 'id', 'period_id');
+    }
+
+    public function functionary()
+    {
+        return $this->hasOne('App\Models\Functionary', 'id', 'promote_functionary_id');
+    }
+
+    public function politic_group()
+    {
+        return $this->hasOne('App\Models\PoliticGroup', 'id', 'politic_group_id');
+    }
+
+    public function level()
+    {
+        return $this->hasOne('App\Models\level', 'id', 'level_id');
+    }
 
     public function law_themes()
     {
         return $this->hasMany('App\Models\LawThemes', 'law_id', 'id');
+    }
+
+    public function law_related_infos()
+    {
+        return $this->hasMany('App\Models\LawRelatedInfo', 'law_id', 'id');
     }
 
     /*Attributes*/
@@ -64,6 +92,27 @@ class Law extends Model
         if ($this->law_themes->count() > 0) {
             $res = $this->law_themes()->orderBy('id','DESC')->first()->theme_social->name;
         }
+        return $res;
+    }
+
+    public function getCreatedAttribute()
+    {
+        return date('d/m/Y',strtotime($this->created_at));
+    }
+
+    public function getUpdatedAttribute()
+    {
+        return date('d/m/Y', strtotime($this->updated_at));
+    }
+
+    public function getSpecialistAttribute()
+    { 
+        $res = null;
+        $ids = $this->law_related_infos()->select('specialist_id')->get()->toArray();
+        if (count($ids) > 0) {
+            $res = \App\Models\Specialist::whereIn('id', $ids)->with('user')->get();
+        }
+
         return $res;
     }
 

@@ -16,8 +16,9 @@ class CreateProposalRelatedInfosTable extends Migration
         Schema::create('proposal_related_infos', function (Blueprint $table) {
             $table->id();
             $table->integer('proposal_id');
+            $table->integer('period_id');
             $table->integer('promote_functionary_id')->nullable();
-            $table->integer('especialist_id')->nullable();
+            $table->integer('specialist_id')->nullable();
             $table->string('title',300);
             $table->text('description');
             $table->string('url');

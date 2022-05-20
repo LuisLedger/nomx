@@ -15,9 +15,9 @@ class LawRelatedInfoFactory extends Factory
     {
         return [
             'title'       => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
+            'description' => $this->faker->text(300),
             'url'         => $this->faker->url,
-            'image_url'   => 'https://fakeimg.pl/400x400/?text=PropuestaLey',
+            'image_url'   => 'https://fakeimg.pl/400x400/?text=LeyRelacionada',
         ];
     }
 }

@@ -76,6 +76,35 @@ class HomeController extends Controller
         return view('important_themes', compact('menu'));
     }
 
+    public function detail_note($type, $id)
+    {
+        $menu = '';
+        if (!is_numeric($id)) {
+            return redirect()->back();
+        }
+
+        $item = null;
+
+        if ($type == 'pr') {
+            $item       = Project::find($id);
+            $item->name = $item->project_name;
+            $item->related = $item->project_related_infos;
+        } else if ($type == 'pp') {
+            $item       = Proposal::find($id);
+            $item->name = $item->proposal_name;
+            $item->related = $item->proposal_related_infos;
+        } else if ($type == 'lw') {
+            $item       = Law::find($id);
+            $item->name = $item->law_name;
+            $item->related = $item->law_related_infos;
+        }
+
+        $item->created = date('d/m/Y',strtotime($item->created_at));
+        $item->specialist = $item->specialist;
+
+        return view('detail_item', compact('menu', 'item', 'type'));
+    }
+
     public function functionary_cameras(Request $request)
     {
         $chunk         = 125;
@@ -114,7 +143,7 @@ class HomeController extends Controller
             $functionaries = $functionaries->where('state_id', $request->state_id);
         }
 
-        $functionaries = $functionaries->orderBy('first_name', 'ASC')->orderby('middle_name', 'ASC')->orderBy('last_name', 'ASC')->get()->toArray();
+        $functionaries = $functionaries->orderBy('first_name', 'ASC')->orderBy('last_name', 'ASC')->get()->toArray();
         $schedule      = $schedule->first();
 
         $this->content['http_code'] = 200;

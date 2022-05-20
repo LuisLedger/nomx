@@ -31,6 +31,7 @@ Route::get('/themes',[HomeController::class,'themes'])->name('themes');
 Route::get('/chamber_dips',[HomeController::class,'chamber_dips'])->name('chamber_dips');
 Route::get('/chamber_sens',[HomeController::class,'chamber_sens'])->name('chamber_sens');
 Route::get('/functionary/{id}/detail',[HomeController::class,'functionary']);
+Route::get('/detail/{type}/element/{id}',[HomeController::class,'detail_note']);
 
 /*Api*/
 Route::get('/functionary_types',[FunctionaryTypeController::class,'index']);

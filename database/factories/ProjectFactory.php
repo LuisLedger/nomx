@@ -15,7 +15,7 @@ class ProjectFactory extends Factory
     {
         return [
             'project_name'    => $this->faker->sentence,
-            'description'     => $this->faker->paragraph,
+            'description'     => $this->faker->text(300),
             // 'level_id' => $this->faker->word,
             // 'promote_functionary_id' => $this->faker->word,
             // 'politic_group_id' => $this->faker->word,

@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FunctionaryActivityFactory extends Factory
+class ProjectRelatedInfoFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,11 +14,10 @@ class FunctionaryActivityFactory extends Factory
     public function definition()
     {
         return [
-            // 'project_id' => $this->faker->sentence,
-            // 'law_id' => $this->faker->sentence,
+            'title'       => $this->faker->sentence,
             'description' => $this->faker->text(300),
             'url'         => $this->faker->url,
-            'image_url'   => 'https://fakeimg.pl/400x400/?text=Activity',
+            'image_url'   => 'https://fakeimg.pl/400x400/?text=ProjectRelated',
         ];
     }
 }

@@ -25,7 +25,7 @@ class SpecialistFactory extends Factory
             'twitter_user'        => $tt,
             'facebook_user'       => $fb,
             'instagram_user'      => $it,
-            'general_description' => $this->faker->sentence,
+            'general_description' => $this->faker->text(300),
             'web_site'            => $this->faker->url,
             'state_id'            => $state->id,
             'delegation_id'       => $delegation->id,

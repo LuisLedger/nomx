@@ -16,8 +16,9 @@ class CreateProjectRelatedInfosTable extends Migration
         Schema::create('project_related_infos', function (Blueprint $table) {
             $table->id();
             $table->integer('project_id');
+            $table->integer('period_id');
             $table->integer('promote_functionary_id')->nullable();
-            $table->integer('especialist_id')->nullable();
+            $table->integer('specialist_id')->nullable();
             $table->string('title',300);
             $table->text('description');
             $table->string('url');

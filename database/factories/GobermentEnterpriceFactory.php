@@ -16,7 +16,7 @@ class GobermentEnterpriceFactory extends Factory
         return [
             'name'        => $this->faker->company,
             'legal_name'  => $this->faker->catchPhrase,
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->text(300),
             'url'         => $this->faker->url,
             'logo'        => 'https://fakeimg.pl/400x400/?text=Logo',
         ];

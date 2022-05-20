@@ -28,7 +28,7 @@
     <section style="background-color: white;">
         <div class="container-fluid p-0">
             <div class="row no-gutters" style="height: 100vh">
-                <div class="col-md-6 text-white showcase-img d-none d-md-block" style="background-image: url('{{ \App\Models\Delegation::inRandomOrder()->first()->image }}'); height: 100%;background-size: cover;"></div>
+                <div class="col-md-6 text-white showcase-img d-none d-md-block" style="background-image: url('https://images.unsplash.com/photo-1512813195386-6cf811ad3542?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'); height: 100%;background-size: cover;"></div>
                 <div class="col-md-6" style="padding-top: 4rem; padding-left: 4rem;padding-right: 4rem;">
                     <h3><b>Registro</b></h3>
                     <form class="mb-5" method="POST" action="{{ route('register') }}">

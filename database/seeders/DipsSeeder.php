@@ -6,16 +6,19 @@ use App\Models\Functionary;
 use App\Models\FunctionaryActivity;
 use App\Models\FunctionaryAssistance;
 use App\Models\FunctionaryContact;
+use App\Models\FunctionaryPeriod;
 use App\Models\FunctionarySocialMedia;
 use App\Models\FunctionaryVote;
-use App\Models\FunctionaryPeriod;
 use App\Models\Law;
 use App\Models\LawRelatedInfo;
 use App\Models\LawThemes;
 use App\Models\Project;
+use App\Models\ProjectRelatedInfo;
 use App\Models\ProjectThemes;
 use App\Models\Proposal;
+use App\Models\ProposalRelatedInfo;
 use App\Models\ProposalThemes;
+use App\Models\Specialist;
 use Illuminate\Database\Seeder;
 
 class DipsSeeder extends Seeder
@@ -29,7 +32,7 @@ class DipsSeeder extends Seeder
     {
         Functionary::factory()->count(500)->create([
             'functionary_type_id' => 4,
-            'level_id' => 1
+            'level_id'            => 1,
         ])->each(function ($functionary) {
             FunctionaryContact::factory()->count(1)->create([
                 'functionary_id' => $functionary->id,
@@ -39,23 +42,27 @@ class DipsSeeder extends Seeder
                 'functionary_id' => $functionary->id,
             ]);
 
-            if (rand(0,1)) {
+            if (rand(0, 1)) {
                 FunctionaryAssistance::factory()->count(1)->create([
                     'functionary_id' => $functionary->id,
                     'period_id'      => 4,
                 ]);
             }
 
+            $specialist = Specialist::count();
+            
             Law::factory()->count(2)->create([
                 'promote_functionary_id' => $functionary->id,
                 'level_id'               => $functionary->level_id,
                 'politic_group_id'       => $functionary->politic_group_id,
                 'period_id'              => 1,
-            ])->each(function ($law) use ($functionary) {
-                LawRelatedInfo::factory()->count(1)->create([
+            ])->each(function ($law) use ($functionary, $specialist) {
+
+                LawRelatedInfo::factory()->count(rand(1,5))->create([
                     'law_id'                 => $law->id,
                     'promote_functionary_id' => $functionary->id,
                     'period_id'              => 1,
+                    'specialist_id'          => rand(1,$specialist)
                 ]);
 
                 FunctionaryActivity::factory()->count(1)->create([
@@ -72,7 +79,14 @@ class DipsSeeder extends Seeder
                 'politic_group_id'       => $functionary->politic_group_id,
                 'level_id'               => $functionary->level_id,
                 'period_id'              => 1,
-            ])->each(function ($project) use ($functionary) {
+            ])->each(function ($project) use ($functionary,$specialist) {
+                ProjectRelatedInfo::factory()->count(rand(1,5))->create([
+                    'project_id'             => $project->id,
+                    'promote_functionary_id' => $functionary->id,
+                    'period_id'              => 1,
+                    'specialist_id'          => rand(1,$specialist)
+                ]);
+
                 FunctionaryActivity::factory()->count(1)->create([
                     'functionary_id' => $functionary->id,
                     'project_id'     => $project->id,
@@ -87,7 +101,14 @@ class DipsSeeder extends Seeder
                 'politic_group_id'       => $functionary->politic_group_id,
                 'level_id'               => $functionary->level_id,
                 'period_id'              => 1,
-            ])->each(function($proposal){
+            ])->each(function ($proposal) use ($functionary,$specialist) {
+                ProposalRelatedInfo::factory()->count(rand(1,5))->create([
+                    'proposal_id'            => $proposal->id,
+                    'promote_functionary_id' => $functionary->id,
+                    'period_id'              => 1,
+                    'specialist_id'          => rand(1,$specialist)
+                ]);
+
                 ProposalThemes::factory()->count(1)->create(['proposal_id' => $proposal->id]);
             });
 

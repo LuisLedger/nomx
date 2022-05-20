@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <state-delegation-component :states="states" :method="getDataRelated"></state-delegation-component>
-                
+                <!-- Leyes -->
                 <section id="laws" v-if="data_laws.laws.length > 0">
                     <h3>Leyes</h3>
                     <hr>
@@ -75,13 +75,13 @@
                     <hr>
                     <h3 class="text-center">{{ (data_laws.loading)?'Cargando datos...':'No hay datos para mostrar' }}</h3>
                 </section>
-
+                <!-- Proyectos -->
                 <section id="projects" v-if="data_projects.projects.length > 0">
                     <h3>Proyectos</h3>
                     <hr>
                     <div class="row">
                         <div class="col-4 mb-3" v-bind:key="'project-'+project.id" v-for="project in data_projects.projects">
-                            <project-card-component :project="project"></project-card-component>
+                            <card-component :extra_class="'p-0'" v-bind:key="'project-card-'+project.id" :body="itemBody(project)"></card-component>
                         </div>
                         <div class="col-12">
                             <button @click="getProjects" class="btn btn-link btn-block">
@@ -95,7 +95,7 @@
                     <hr>
                     <h3 class="text-center">{{ (data_projects.loading)?'Cargando datos...':'No hay datos para mostrar' }}</h3>
                 </section>
-                
+                <!-- Propuestas -->
                 <section id="proposals" v-if="data_proposals.proposals.length > 0">
                     <h3>Propuestas y Promesas en campaña</h3>
                     <hr>
@@ -170,18 +170,22 @@
                 var name = '' 
                 var colorItem = ''
                 var statusItem = ''
+                var type = ''
                 if (item.hasOwnProperty('project_name')) {
                     name = item.project_name
                     colorItem = item.status_color
                     statusItem = item.status_name
+                    type = 'pr'
                 } else if (item.hasOwnProperty('law_name')) {
                     name = item.law_name
                     colorItem = item.status_color
                     statusItem = item.status_name
+                    type = 'lw'
                 } else {
                     name = item.proposal_name
                     colorItem = item.status_color
                     statusItem = item.status_name
+                    type = 'pp'
                 }
 
                 return `<img src="${item.image_url}" height="150" alt="">
@@ -190,12 +194,15 @@
                         <p class="m-0">${item.theme_name}</p>
                         <h3 title="${name}">${name.substring(0,25)}</h3>
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-6 p-2">
                                 <p class="m-0" style="color:${colorItem}">${statusItem}</p>
                             </div>
-                            <div class="col-4">
-                                <a href="${item.url_global_info}" target="_blank">
-                                    Ver info...
+                            <div class="col-6 text-right">
+                                <a class="btn btn-outline-info btn-sm" href="${item.url_global_info}" target="_blank" title="Ver link directo">
+                                    <i class="fa fa-link"></i>
+                                </a> 
+                                <a class="btn btn-outline-primary btn-sm" href="/detail/${type}/element/${item.id}" target="_blank" title="Ver detalle">
+                                    <i class="fa fa-eye"></i>
                                 </a> 
                             </div>
                         </div>
@@ -315,8 +322,8 @@
                     if (response.http_code == 200) {
                         t.data_laws.last_page = response.data.last_page
                         if (response.data.data.length > 0) {
-                            $.each(response.data.data,function(i,el){
-                                t.data_laws.laws = [...t.data_laws.laws,el]
+                            $.each(response.data.data,function(i,law){
+                                t.data_laws.laws = [...t.data_laws.laws,law]
                             })
                         }
 
@@ -341,8 +348,8 @@
                     if (response.http_code == 200) {
                         t.data_projects.last_page = response.data.last_page
                         if (response.data.data.length > 0) {
-                            $.each(response.data.data,function(i,el){
-                                t.data_projects.projects = [...t.data_projects.projects,el]
+                            $.each(response.data.data,function(i,project){
+                                t.data_projects.projects = [...t.data_projects.projects,project]
                             })
                         }
 
@@ -367,14 +374,17 @@
                     if (response.http_code == 200) {
                         t.data_proposals.last_page = response.data.last_page
                         if (response.data.data.length > 0) {
-                            $.each(response.data.data,function(i,el){
-                                t.data_proposals.proposals = [...t.data_proposals.proposals,el]
+                            $.each(response.data.data,function(i,proposal){
+                                t.data_proposals.proposals = [...t.data_proposals.proposals,proposal]
                             })
                         }
 
                         t.data_proposals.page++    
                     }
                 })
+            },
+            showModal: function(item) {
+                console.log(item)
             }
         }
     }

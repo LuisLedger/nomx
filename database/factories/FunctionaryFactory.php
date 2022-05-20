@@ -19,7 +19,6 @@ class FunctionaryFactory extends Factory
 
         return [
             'first_name'          => $this->faker->name,
-            'middle_name'         => $this->faker->lastName,
             'last_name'           => $this->faker->lastName,
             'birthdate'           => '1980-01-01',
             'start_time'          => date('Y-m-d'),

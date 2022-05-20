@@ -18,7 +18,7 @@ class CreateLawRelatedInfosTable extends Migration
             $table->integer('law_id');
             $table->integer('period_id');
             $table->integer('promote_functionary_id')->nullable();
-            $table->integer('especialist_id')->nullable();
+            $table->integer('specialist_id')->nullable();
             $table->string('title',300);
             $table->text('description');
             $table->string('url');

@@ -54,10 +54,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = [
-        'profile_photo_url',
-    ];
-
     public function getRoleNameAttribute()
     {
         return Self::$roles[$this->role];

@@ -37,6 +37,9 @@ class Project extends Model
         'functionary_name',
         'politic_group_name',
         'theme_name',
+        'created',
+        'updated',
+        'specialist'
     ];
 
     public function period()
@@ -72,6 +75,11 @@ class Project extends Model
     public function project_themes()
     {
         return $this->hasMany('App\Models\ProjectThemes', 'project_id', 'id');
+    }
+
+    public function project_related_infos()
+    {
+        return $this->hasMany('App\Models\ProjectRelatedInfo', 'project_id', 'id');
     }
 
     /* Project attributes */
@@ -116,6 +124,27 @@ class Project extends Model
         if ($this->project_themes->count() > 0) {
             $res = $this->project_themes()->orderBy('id','DESC')->first()->theme_social->name;
         }
+        return $res;
+    }
+
+    public function getCreatedAttribute()
+    {
+        return date('d/m/Y',strtotime($this->created_at));
+    }
+
+    public function getUpdatedAttribute()
+    {
+        return date('d/m/Y', strtotime($this->updated_at));
+    }
+
+    public function getSpecialistAttribute()
+    { 
+        $res = null;
+        $ids = $this->project_related_infos()->select('specialist_id')->get()->toArray();
+        if (count($ids) > 0) {
+            $res = \App\Models\Specialist::whereIn('id', $ids)->with('user')->get();
+        }
+
         return $res;
     }
 

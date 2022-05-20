@@ -19,7 +19,6 @@ class CreateFunctionariesTable extends Migration
             $table->integer('parent')->nullable();
             $table->integer('user_id')->nullable();
             $table->string('first_name',300)->nullable();
-            $table->string('middle_name',300)->nullable();
             $table->string('last_name',300)->nullable();
             $table->string('role')->nullable();
             $table->text('general_description')->nullable();
