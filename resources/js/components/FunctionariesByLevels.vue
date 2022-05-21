@@ -23,6 +23,9 @@
             <state-delegation-component :states="states" :method="getFunctionariesData"></state-delegation-component>
         </div>
         <hr>
+        <p class="text-right">
+            <small>Existen {{total_list}} funcionario(s)</small>
+        </p>
         <div class="row" v-if="functionaries.length > 0" id="list-functionaries">
             <div class="col-md-4 mb-3" v-for="functionary in functionaries" >
                 <card-functionary-component :functionary="functionary"></card-functionary-component>
@@ -49,6 +52,7 @@
                 selected_functionary_type: 1,
                 page: 1,
                 last_page: 1,
+                total_list: 0,
                 functionary_types: [],
                 functionaries: [],
                 last_query_string: {}
@@ -56,6 +60,7 @@
         },
         mounted() {
             this.getFunctionaryTypes(1)
+            this.getFunctionariesData()
         },
         methods: {
             levelBody: function(text) {
@@ -73,11 +78,11 @@
             getFunctionaryTypes: function(level_id = null){
                 var t = this
                 var url = '/functionary_types'
-                t.selected_level = level_id
-                t.selected_functionary_type = null
+                t.selected_level = (level_id==null)?1:level_id
+                t.selected_functionary_type = (t.selected_level==1)?1:null
 
                 if (level_id != null) {
-                    url += '?level_id='+level_id
+                    url += '?level_id='+t.selected_level
                 }
 
                 t.functionaries = []
@@ -99,9 +104,8 @@
                 var valid_search = false
                 var data = {
                     limit: 6,
-                    functionary_type_id : t.selected_functionary_type,
-                    level_id : t.selected_level,
-                    page: t.page
+                    functionary_type_id: t.selected_functionary_type,
+                    level_id: t.selected_level,
                 }
 
                 if ($('[name="state_id"]').val() !== '') {
@@ -119,20 +123,23 @@
                         return
                     }
                 }
-
-                if (t.last_query_string.functionary_type_id != data.functionary_type_id) {
+                
+                if (t.last_query_string.functionary_type_id !== t.selected_functionary_type) {
                     t.page = 1
                     t.last_page = 1
                     t.functionaries = []
                 }
 
-                if (t.last_query_string.level_id != data.level_id) {
+                if (t.last_query_string.level_id !== t.selected_level) {
                     t.page = 1
                     t.last_page = 1
                     t.functionaries = []
                 }
+
+                data.page = t.page
 
                 t.last_query_string = data
+                t.total_list = 0
                 $.ajax({
                     type: 'get',
                     url: '/functionaries_search',
@@ -140,8 +147,9 @@
                     dataType: 'json'
                 }).done(function(response){
                     if (response.http_code == 200) {
+                        t.total_list = response.data.total                        
+                        t.last_page = response.data.last_page
                         if (response.data.data.length > 0) {
-                            t.last_page = response.data.last_page
                             $.each(response.data.data,function(i,el){
                                 t.functionaries = [...t.functionaries,el]
                             })

@@ -1,7 +1,7 @@
 <template>
     <a :href="functionary.url_detail" :title="functionary.full_name" class="card-link">
         <div :class="(extra_class)?'card mt-3 '+extra_class:'card mt-3'">
-            <div class="card-body m-0" style="height:202px">
+            <div class="card-body m-0 pt-4" style="height:202px">
                 <div class="row">
                     <div class="col-4 m-auto">
                         <img :src="functionary.profile_url" alt="" class="image-functionary">

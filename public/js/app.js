@@ -5849,6 +5849,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['levels', 'states'],
   data: function data() {
@@ -5857,6 +5860,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       selected_functionary_type: 1,
       page: 1,
       last_page: 1,
+      total_list: 0,
       functionary_types: [],
       functionaries: [],
       last_query_string: {}
@@ -5864,6 +5868,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   mounted: function mounted() {
     this.getFunctionaryTypes(1);
+    this.getFunctionariesData();
   },
   methods: {
     levelBody: function levelBody(text) {
@@ -5879,11 +5884,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var level_id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var t = this;
       var url = '/functionary_types';
-      t.selected_level = level_id;
-      t.selected_functionary_type = null;
+      t.selected_level = level_id == null ? 1 : level_id;
+      t.selected_functionary_type = t.selected_level == 1 ? 1 : null;
 
       if (level_id != null) {
-        url += '?level_id=' + level_id;
+        url += '?level_id=' + t.selected_level;
       }
 
       t.functionaries = [];
@@ -5905,8 +5910,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var data = {
         limit: 6,
         functionary_type_id: t.selected_functionary_type,
-        level_id: t.selected_level,
-        page: t.page
+        level_id: t.selected_level
       };
 
       if ($('[name="state_id"]').val() !== '') {
@@ -5925,19 +5929,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         }
       }
 
-      if (t.last_query_string.functionary_type_id != data.functionary_type_id) {
+      if (t.last_query_string.functionary_type_id !== t.selected_functionary_type) {
         t.page = 1;
         t.last_page = 1;
         t.functionaries = [];
       }
 
-      if (t.last_query_string.level_id != data.level_id) {
+      if (t.last_query_string.level_id !== t.selected_level) {
         t.page = 1;
         t.last_page = 1;
         t.functionaries = [];
       }
 
+      data.page = t.page;
       t.last_query_string = data;
+      t.total_list = 0;
       $.ajax({
         type: 'get',
         url: '/functionaries_search',
@@ -5945,8 +5951,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         dataType: 'json'
       }).done(function (response) {
         if (response.http_code == 200) {
+          t.total_list = response.data.total;
+          t.last_page = response.data.last_page;
+
           if (response.data.data.length > 0) {
-            t.last_page = response.data.last_page;
             $.each(response.data.data, function (i, el) {
               t.functionaries = [].concat(_toConsumableArray(t.functionaries), [el]);
             });
@@ -43017,6 +43025,12 @@ var render = function () {
     _vm._v(" "),
     _c("hr"),
     _vm._v(" "),
+    _c("p", { staticClass: "text-right" }, [
+      _c("small", [
+        _vm._v("Existen " + _vm._s(_vm.total_list) + " funcionario(s)"),
+      ]),
+    ]),
+    _vm._v(" "),
     _vm.functionaries.length > 0
       ? _c(
           "div",
@@ -44130,7 +44144,10 @@ var render = function () {
         [
           _c(
             "div",
-            { staticClass: "card-body m-0", staticStyle: { height: "202px" } },
+            {
+              staticClass: "card-body m-0 pt-4",
+              staticStyle: { height: "202px" },
+            },
             [
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-4 m-auto" }, [
