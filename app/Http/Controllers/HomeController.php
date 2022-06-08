@@ -25,11 +25,6 @@ class HomeController extends Controller
         ];
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $menu = 'home';
@@ -367,5 +362,11 @@ class HomeController extends Controller
         $this->content['data'] = $schedules;
 
         return response()->json($this->content);
+    }
+
+    public function admin()
+    {
+        $menu = 'admin';
+        return view('admin.index', compact('menu'));
     }
 }

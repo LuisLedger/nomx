@@ -7,6 +7,9 @@ use App\Http\Controllers\FunctionaryTypeController;
 use App\Http\Controllers\DelegationController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\FunctionaryController;
+/* ADMIN */
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,5 +57,10 @@ Route::get('/schedule_session',[HomeController::class,'schedule_session']);
 Route::get('/search_query',[HomeController::class,'search_query']);
 
 Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
+    Route::get('/',[HomeController::class,'admin'])->name('admin');
+
+    Route::resource('users', UserController::class);
+
     Route::resource('levels.functionary_types', FunctionaryTypeController::class);
+    
 });
