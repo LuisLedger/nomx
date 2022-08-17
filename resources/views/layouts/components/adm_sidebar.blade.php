@@ -12,7 +12,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <li class="nav-item active">
+    <li class="nav-item {{ isset($menu_name) ? ($menu_name == 'admin')?'active':'':'' }}">
         <a class="nav-link" href="{{ route('admin') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
@@ -26,33 +26,22 @@
         Administrar
     </div>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
-            aria-expanded="true" aria-controls="collapseUsers">
+        <li class="nav-item {{ isset($menu_name) ? ($menu_name == 'Usuarios')?'active':'':'' }}">
+        <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Usuarios</span>
         </a>
-        <div id="collapseUsers" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Tipos de usuarios</h6>
-                <a class="collapse-item" href="">Administradores</a>
-                <a class="collapse-item" href="">Capturistas</a>
-                <a class="collapse-item" href="">Funcionarios</a>
-                <a class="collapse-item" href="">Asesores Funcionarios</a>
-                <a class="collapse-item" href="">Especialistas</a>
-                <a class="collapse-item" href="">Ciudadanos</a>
-            </div>
-        </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCatalog"
+        <a class="nav-link {{ isset($menu_name) ? ($menu_name == 'Sistema')?'collapsed':'':'' }}" href="#" data-toggle="collapse" data-target="#collapseCatalog"
             aria-expanded="true" aria-controls="collapseCatalog">
             <i class="fas fa-fw fa-cogs"></i>
             <span>Sistema</span>
         </a>
-        <div id="collapseCatalog" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseCatalog" class="collapse {{ isset($menu_name) ? ($menu_name == 'Sistema')?'show':'':'' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Todos</h6>
-                <a class="collapse-item" href="">Temas sociales</a>
+                <a class="collapse-item" href="{{route('theme-socials.index')}}">Temas sociales</a>
                 <a class="collapse-item" href="">Niveles de gobierno</a>
                 <a class="collapse-item" href="">Partidos Políticos</a>
                 <a class="collapse-item" href="">Estados</a>

@@ -9,6 +9,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\FunctionaryController;
 /* ADMIN */
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ThemeSocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +61,9 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::get('/',[HomeController::class,'admin'])->name('admin');
 
     Route::resource('users', UserController::class);
+    
+    Route::resource('theme-socials', ThemeSocialController::class);
 
-    Route::resource('levels.functionary_types', FunctionaryTypeController::class);
+    // Route::resource('levels.functionary_types', FunctionaryTypeController::class);
     
 });

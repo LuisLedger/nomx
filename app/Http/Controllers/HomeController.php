@@ -27,26 +27,26 @@ class HomeController extends Controller
 
     public function index()
     {
-        $menu = 'home';
-        return view('principal', compact('menu'));
+        $menu_name = 'home';
+        return view('principal', compact('menu_name'));
     }
 
     public function find_functionaries(Request $request)
     {
-        $menu = 'find_functionaries';
-        return view('find_functionaries', compact('menu'));
+        $menu_name = 'find_functionaries';
+        return view('find_functionaries', compact('menu_name'));
     }
 
     public function chamber_dips(Request $request)
     {
-        $menu = 'chamber_dips';
-        return view('chamber_dips', compact('menu'));
+        $menu_name = 'chamber_dips';
+        return view('chamber_dips', compact('menu_name'));
     }
 
     public function chamber_sens(Request $request)
     {
-        $menu = 'chamber_sens';
-        return view('chamber_sens', compact('menu'));
+        $menu_name = 'chamber_sens';
+        return view('chamber_sens', compact('menu_name'));
     }
 
     public function functionary(Request $request, $id)
@@ -67,13 +67,13 @@ class HomeController extends Controller
 
     public function themes()
     {
-        $menu = 'themes';
-        return view('important_themes', compact('menu'));
+        $menu_name = 'themes';
+        return view('important_themes', compact('menu_name'));
     }
 
     public function detail_note($type, $id)
     {
-        $menu = '';
+        $menu_name = '';
         if (!is_numeric($id)) {
             return redirect()->back();
         }
@@ -366,7 +366,7 @@ class HomeController extends Controller
 
     public function admin()
     {
-        $menu = 'admin';
-        return view('admin.index', compact('menu'));
+        $menu_name = 'admin';
+        return view('admin.index', compact('menu_name'));
     }
 }

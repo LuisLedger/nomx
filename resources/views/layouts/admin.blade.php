@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ env('APP_NAME')}} - {{$menu}}</title>
+    <title>{{ env('APP_NAME')}} - {{$menu_name}}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.css') }}" rel="stylesheet" type="text/css">
@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <script defer="" src="{{ asset('js/app_admin.js') }}"></script>
+    <link href="{{ asset('css/app_admin.css') }}" rel="stylesheet">
     @yield('css')
 </head>
 

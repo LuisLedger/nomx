@@ -16,19 +16,19 @@
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
-                <li class="nav-item {{ ($menu == 'home')?'active':''}}">
+                <li class="nav-item {{ ($menu_name == 'home')?'active':''}}">
                     <a class="nav-link" href="{{ route('home') }}">{{ __('Inicio') }}</a>
                 </li>
-                <li class="nav-item {{ ($menu == 'find_functionaries')?'active':''}}">
+                <li class="nav-item {{ ($menu_name == 'find_functionaries')?'active':''}}">
                     <a class="nav-link" href="{{ route('find_functionaries') }}">{{ __('Encuentra funcionarios') }}</a>
                 </li>
-                <li class="nav-item {{ ($menu == 'themes')?'active':''}}">
+                <li class="nav-item {{ ($menu_name == 'themes')?'active':''}}">
                     <a class="nav-link" href="{{ route('themes') }}">{{ __('Temas') }}</a>
                 </li>
-                <li class="nav-item {{ ($menu == 'chamber_dips')?'active':''}}">
+                <li class="nav-item {{ ($menu_name == 'chamber_dips')?'active':''}}">
                     <a class="nav-link" href="{{ route('chamber_dips') }}">{{ __('Diputados') }}</a>
                 </li>
-                <li class="nav-item {{ ($menu == 'chamber_sens')?'active':''}}">
+                <li class="nav-item {{ ($menu_name == 'chamber_sens')?'active':''}}">
                     <a class="nav-link" href="{{ route('chamber_sens') }}">{{ __('Senadores') }}</a>
                 </li>
                 @guest
@@ -42,6 +42,9 @@
                     </li>
                 @else
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin') }}">{{ __('Ir al Admin') }}</a>
+                    </li>
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('notifications') }}">
                             <i class="fa fa-bell"></i>
                             @if (auth()->user()->unreadNotifications->count() > 0)
@@ -50,33 +53,7 @@
                                 </sup>
                             @endif
                         </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->first_name .' '.Auth::user()->last_name }} <span class="caret"></span>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            @if (auth()->user()->role == 'suscriber')
-                                <a class="dropdown-item" href="{{ route('profile') }}" title="">
-                                    Perfil
-                                </a>
-                            @else
-                                <a class="dropdown-item" href="{{ route('admin') }}" title="">
-                                    Administrador
-                                </a>
-                            @endif
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+                    </li> --}}
                 @endguest
             </ul>
         </div>
